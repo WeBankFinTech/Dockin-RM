@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) @2020 Webank Group Holding Limited
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License. You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software distributed under the License
+  ~ is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  ~ or implied. See the License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.webank.dockin.rm.database.dao.HostInfoDAO">
+    <resultMap id="BaseResultMap" type="cn.webank.dockin.rm.database.dto.HostInfo">
+        <result column="host_ip" jdbcType="VARCHAR" property="hostIp"/>
+        <result column="tor" jdbcType="VARCHAR" property="tor"/>
+        <result column="wa_tor" jdbcType="VARCHAR" property="waTor"/>
+        <result column="idc" jdbcType="VARCHAR" property="idc"/>
+        <result column="dcn" jdbcType="VARCHAR" property="dcn"/>
+        <result column="env_id" jdbcType="VARCHAR" property="envId"/>
+        <result column="cluster_id" jdbcType="VARCHAR" property="clusterId"/>
+        <result column="cluster_version" jdbcType="VARCHAR" property="clusterVersion"/>
+        <result column="all_cpu" jdbcType="INTEGER" property="allCpu"/>
+        <result column="all_mem" jdbcType="INTEGER" property="allMem"/>
+        <result column="all_disk" jdbcType="INTEGER" property="allDisk"/>
+        <result column="available_cpu" jdbcType="INTEGER" property="availableCpu"/>
+        <result column="available_mem" jdbcType="INTEGER" property="availableMem"/>
+        <result column="available_disk" jdbcType="INTEGER" property="availableDisk"/>
+        <result column="state" jdbcType="VARCHAR" property="state"/>
+    </resultMap>
+
+    <sql id="base_column_filter">
+        <if test="info.hostIp != null">AND host_ip = #{info.hostIp}</if>
+        <if test="info.tor != null">AND tor = #{info.tor}</if>
+        <if test="info.waTor != null">AND wa_tor = #{info.waTor}</if>
+        <if test="info.idc != null">AND idc = #{info.idc}</if>
+        <if test="info.dcn != null">AND dcn = #{info.dcn}</if>
+        <if test="info.envId != null">AND env_id = #{info.envId}</if>
+        <if test="info.clusterId != null">AND cluster_id = #{info.clusterId}</if>
+        <if test="info.clusterVersion != null">AND cluster_version = #{info.clusterVersion}</if>
+        <if test="info.allCpu != null">AND all_cpu = #{info.allCpu}</if>
+        <if test="info.allMem != null">AND all_mem = #{info.allMem}</if>
+        <if test="info.allDisk != null">AND all_disk = #{info.allDisk}</if>
+        <if test="info.availableCpu != null">AND available_cpu = #{info.availableCpu}</if>
+        <if test="info.availableMem != null">AND available_mem = #{info.availableMem}</if>
+        <if test="info.availableDisk != null">AND available_disk = #{info.availableDisk}</if>
+        <if test="info.state != null">AND state = #{info.state}</if>
+    </sql>
+
+
+    <insert id="insertHostInfo">
+        INSERT INTO host_info (host_ip, tor, wa_tor, idc, dcn, env_id, all_cpu, all_mem, all_disk, available_cpu, available_mem, available_disk, state, cluster_id, cluster_version)
+        VALUES (#{hostIp}, #{tor}, #{waTor}, #{idc}, #{dcn}, #{envId}, #{allCpu}, #{allMem}, #{allDisk}, #{availableCpu}, #{availableMem}, #{availableDisk}, #{state}, #{clusterId}, #{clusterVersion})
+        ON DUPLICATE KEY UPDATE tor=#{tor},wa_tor=#{waTor},idc=#{idc},dcn=#{dcn},all_cpu=#{allCpu},all_mem=#{allMem},all_disk=#{allDisk},state=#{state}
+    </insert>
+
+    <insert id="batchInsert">
+        INSERT INTO host_info (host_ip, tor, wa_tor, idc, dcn, env_id, all_cpu, all_mem, all_disk, available_cpu, available_mem,
+        available_disk, state, cluster_id, cluster_version)
+        VALUES
+        <foreach collection="hostInfoList" item="h" index="index" separator=",">
+            (#{h.hostIp}, #{h.tor}, #{h.waTor}, #{h.idc}, #{h.dcn}, #{h.envId}, #{h.allCpu}, #{h.allMem}, #{h.allDisk},
+            #{h.availableCpu}, #{h.availableMem}, #{h.availableDisk}, #{h.state}, #{h.clusterId}, #{h.clusterVersion})
+        </foreach>
+        ON DUPLICATE KEY UPDATE tor=values(tor),idc=values(idc),dcn=values(dcn),all_cpu=values(all_cpu),all_mem=values(all_mem),all_disk=values(all_disk),cluster_id=values(cluster_id),cluster_version=values(cluster_version),state=values(state)
+    </insert>
+
+    <select id="getTorByHostIp" resultType="string">
+        SELECT tor FROM host_info WHERE host_ip=#{hostIp} AND state != "offline"
+    </select>
+
+    <select id="getTorByAvailableHostDcn" resultType="string">
+        SELECT DISTINCT tor FROM host_info WHERE dcn=#{dcn} AND state="available"
+    </select>
+
+    <select id="getAvailableHostByTorAndDcn" resultMap="BaseResultMap">
+        SELECT * FROM host_info WHERE tor=#{tor} AND dcn=#{dcn} AND state="available"
+    </select>
+
+    <select id="getHosts" resultMap="BaseResultMap">
+        SELECT * FROM host_info
+        <where>
+            <include refid="base_column_filter"></include>
+        </where>
+    </select>
+
+    <select id="getByPage" resultMap="BaseResultMap">
+        SELECT * FROM host_info
+        <where>
+            <include refid="base_column_filter"></include>
+        </where>
+        ORDER BY update_time ASC
+    </select>
+
+    <select id="getByUpdateTime" resultMap="BaseResultMap">
+        SELECT * FROM host_info
+        WHERE update_time >= #{from} AND update_time &lt;= #{to}
+    </select>
+
+    <select id="getAllAvailableHostsByEnvIdAndIdcAndDcnInSameNetworkArea" resultMap="BaseResultMap">
+        SELECT * FROM host_info WHERE env_id=#{envId} AND idc=#{idc} AND state="available" AND dcn IN (
+        SELECT d.dcn_id FROM dcn d INNER JOIN deploy_logic_area a ON d.logic_area = a.name WHERE a.network_area IN
+        (SELECT network_area FROM deploy_logic_area a INNER JOIN dcn d ON  d.logic_area = a.name WHERE d.dcn_id=#{dcn}))
+    </select>
+
+    <select id="getAvailableHostsByClusterId" resultMap="BaseResultMap">
+        SELECT * FROM host_info WHERE cluster_id=#{clusterId} AND state="available"
+    </select>
+
+    <update id="updateHostResource">
+        UPDATE host_info AS h
+        INNER JOIN (SELECT COALESCE(SUM(cpu),0) AS s1,COALESCE(SUM(mem),0) AS s2,COALESCE(SUM(disk),0) AS s3, #{hostIp} AS host_ip FROM pod_info WHERE host_ip=#{hostIp} AND state != "OFFLINE") AS p ON h.host_ip=p.host_ip
+        SET available_cpu=all_cpu-p.s1,available_mem=all_mem-p.s2,available_disk=all_disk-p.s3
+    </update>
+
+    <select id="getHostByHostIp" resultMap="BaseResultMap">
+        SELECT * FROM host_info WHERE host_ip=#{hostIp} AND state != "offline"
+    </select>
+
+    <select id="getAllHosts" resultMap="BaseResultMap">
+        SELECT host_ip, cluster_id, cluster_version, tor, wa_tor, idc, dcn, all_cpu, all_mem, all_disk, available_cpu, available_mem, available_disk, state FROM host_info
+    </select>
+
+    <select id="getAllAvailableHosts" resultMap="BaseResultMap">
+        SELECT host_ip, cluster_id, cluster_version, tor, wa_tor, idc, dcn, all_cpu, all_mem, all_disk, available_cpu, available_mem, available_disk, state FROM host_info WHERE state="available"
+    </select>
+
+    <insert id="addHost" parameterType="cn.webank.dockin.rm.database.dto.HostInfo">
+        INSERT INTO host_info
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="hostIp != null">host_ip,</if>
+            <if test="tor != null">tor,</if>
+            <if test="waTor != null">wa_tor,</if>
+            <if test="idc != null">idc,</if>
+            <if test="dcn != null">dcn,</if>
+            <if test="envId != null">env_id,</if>
+            <if test="clusterId != null">cluster_id,</if>
+            <if test="clusterVersion != null">cluster_version,</if>
+            <if test="allCpu != null">all_cpu,</if>
+            <if test="allMem != null">all_mem,</if>
+            <if test="allDisk != null">all_disk,</if>
+            <if test="availableCpu != null">available_cpu,</if>
+            <if test="availableMem != null">available_mem,</if>
+            <if test="availableDisk != null">available_disk,</if>
+            <if test="state != null">state,</if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="hostIp != null">#{hostIp},</if>
+            <if test="tor != null">#{tor},</if>
+            <if test="waTor != null">#{waTor},</if>
+            <if test="idc != null">#{idc},</if>
+            <if test="dcn != null">#{dcn},</if>
+            <if test="envId != null">#{envId},</if>
+            <if test="clusterId != null">#{clusterId},</if>
+            <if test="clusterVersion != null">#{clusterVersion},</if>
+            <if test="allCpu != null">#{allCpu},</if>
+            <if test="allMem != null">#{allMem},</if>
+            <if test="allDisk != null">#{allDisk},</if>
+            <if test="availableCpu != null">#{availableCpu},</if>
+            <if test="availableMem != null">#{availableMem},</if>
+            <if test="availableDisk != null">#{availableDisk},</if>
+            <if test="state != null">#{state},</if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateHost" parameterType="cn.webank.dockin.rm.database.dto.HostInfo">
+        update host_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="tor != null">tor = #{tor},</if>
+            <if test="waTor != null">wa_tor = #{waTor},</if>
+            <if test="idc != null">idc = #{idc},</if>
+            <if test="dcn != null">dcn = #{dcn},</if>
+            <if test="envId != null">env_id = #{envId},</if>
+            <if test="clusterId != null">cluster_id = #{clusterId},</if>
+            <if test="clusterVersion != null">cluster_version = #{clusterVersion},</if>
+            <if test="allCpu != null">all_cpu = #{allCpu},</if>
+            <if test="allMem != null">all_mem = #{allMem},</if>
+            <if test="allDisk != null">all_disk = #{allDisk},</if>
+            <if test="availableCpu != null">available_cpu = #{availableCpu},</if>
+            <if test="availableMem != null">available_mem = #{availableMem},</if>
+            <if test="availableDisk != null">available_disk = #{availableDisk},</if>
+            <if test="state != null">state = #{state},</if>
+        </trim>
+        where host_ip = #{hostIp}
+    </update>
+
+    <update id="updateEnvIdBaseOrganizationByHostIp">
+        UPDATE host_info h INNER JOIN(
+        SELECT e.env_id, d.dcn_id FROM environment e INNER JOIN organization o ON e.env_id = o.env_id INNER JOIN dcn d ON o.org_id = d.org_id
+        ) env ON h.dcn = env.dcn_id
+        SET h.env_id = env.env_id WHERE h.host_ip = #{hostIp}
+    </update>
+
+    <update id="updateEnvIdBaseOrganization">
+        UPDATE host_info h INNER JOIN(
+        SELECT e.env_id, d.dcn_id FROM environment e INNER JOIN organization o ON e.env_id = o.env_id INNER JOIN dcn d ON o.org_id = d.org_id
+        ) env ON h.dcn = env.dcn_id
+        SET h.env_id = env.env_id
+    </update>
+
+    <update id="updateEnvIdBaseDeployAreaByHostIp">
+        UPDATE host_info h INNER JOIN(
+        SELECT e.env_id, d.dcn_id FROM environment e INNER JOIN deploy_logic_area a ON e.env_id = a.env_id INNER JOIN dcn d ON a.name = d.logic_area
+        )env ON h.dcn = env.dcn_id
+        SET h.env_id = env.env_id WHERE h.host_ip = #{hostIp}
+    </update>
+
+    <update id="updateEnvIdBaseDeployArea">
+        UPDATE host_info h INNER JOIN(
+        SELECT e.env_id, d.dcn_id FROM environment e INNER JOIN deploy_logic_area a ON e.env_id = a.env_id INNER JOIN dcn d ON a.name = d.logic_area
+        )env ON h.dcn = env.dcn_id
+        SET h.env_id = env.env_id
+    </update>
+
+    <update id="resetAllEnvId">
+        UPDATE host_info SET env_id = ''
+    </update>
+
+    <update id="offlineHost">
+        update host_info set state = 'offline' where host_ip = #{ip}
+    </update>
+
+    <select id="getClusterIdByHostIp" resultType="string">
+        SELECT cluster_id FROM host_info WHERE host_ip=#{hostIp} AND state != "offline"
+    </select>
+</mapper>

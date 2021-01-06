@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) @2020 Webank Group Holding Limited
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License. You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software distributed under the License
+  ~ is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  ~ or implied. See the License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.webank.dockin.rm.database.dao.PodInfoDAO">
+    <resultMap id="BaseResultMap" type="cn.webank.dockin.rm.database.dto.PodInfoDTO">
+        <result column="pod_name" jdbcType="VARCHAR" property="podName"/>
+        <result column="pod_set_id" jdbcType="VARCHAR" property="podSetId"/>
+        <result column="sub_system" jdbcType="VARCHAR" property="subSystem"/>
+        <result column="sub_system_id" jdbcType="VARCHAR" property="subSystemId"/>
+        <result column="dcn" jdbcType="VARCHAR" property="dcn"/>
+        <result column="pod_ip" jdbcType="VARCHAR" property="podIp"/>
+        <result column="gateway_id" jdbcType="VARCHAR" property="gateway"/>
+        <result column="subnet_mask" jdbcType="VARCHAR" property="subnetMask"/>
+        <result column="host_ip" jdbcType="VARCHAR" property="hostIp"/>
+        <result column="cpu" jdbcType="DOUBLE" property="cpu"/>
+        <result column="mem" jdbcType="DOUBLE" property="mem"/>
+        <result column="cpu_request" jdbcType="DOUBLE" property="cpuRequest"/>
+        <result column="mem_request" jdbcType="DOUBLE" property="memRequest"/>
+        <result column="disk" jdbcType="INTEGER" property="disk"/>
+        <result column="itsm_id" jdbcType="VARCHAR" property="itsmId"/>
+        <result column="offline_itsm_id" jdbcType="VARCHAR" property="offlineItsmId"/>
+        <result column="update_itsm_id" jdbcType="VARCHAR" property="updateItsmId"/>
+        <result column="people" jdbcType="VARCHAR" property="people"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="port" jdbcType="INTEGER" property="port"/>
+        <result column="jmx_port" jdbcType="INTEGER" property="jmxPort"/>
+        <result column="tag" jdbcType="VARCHAR" property="tag"/>
+        <result column="namespace" jdbcType="VARCHAR" property="namespace"/>
+        <result column="cluster_id" jdbcType="VARCHAR" property="clusterId"/>
+        <result column="expiry_type" jdbcType="INTEGER" property="expiryType"/>
+        <result column="state" jdbcType="VARCHAR" property="state"/>
+    </resultMap>
+
+    <sql id="base_column_filter">
+        <trim>
+            <if test="info.podName!=null">
+                AND pod_name=#{info.podName}
+            </if>
+            <if test="info.podSetId!=null">
+                AND pod_set_id=#{info.podSetId}
+            </if>
+            <if test="info.subSystem!=null">
+                AND sub_system=#{info.subSystem}
+            </if>
+            <if test="info.subSystemId!=null">
+                AND sub_system_id=#{info.subSystemId}
+            </if>
+            <if test="info.dcn!=null">
+                AND dcn=#{info.dcn}
+            </if>
+            <if test="info.podIp!=null">
+                AND pod_ip=#{info.podIp}
+            </if>
+            <if test="info.gateway!=null">
+                AND gateway_id=#{info.gateway}
+            </if>
+            <if test="info.subnetMask!=null">
+                AND subnet_mask=#{info.subnetMask}
+            </if>
+            <if test="info.hostIp!=null">
+                AND host_ip=#{info.hostIp}
+            </if>
+            <if test="info.cpu!=null">
+                AND cpu=#{info.cpu}
+            </if>
+            <if test="info.mem!=null">
+                AND mem=#{info.mem}
+            </if>
+            <if test="info.cpuRequest!=null">
+                AND cpu_request=#{info.cpuRequest}
+            </if>
+            <if test="info.memRequest!=null">
+                AND mem_request=#{info.memRequest}
+            </if>
+            <if test="info.disk!=null">
+                AND disk=#{info.disk}
+            </if>
+            <if test="info.itsmId!=null">
+                AND itsm_id=#{info.itsmId}
+            </if>
+            <if test="info.offlineItsmId!=null">
+                AND offline_itsm_id=#{info.offlineItsmId}
+            </if>
+            <if test="info.updateItsmId!=null">
+                AND update_itsm_id=#{info.updateItsmId}
+            </if>
+            <if test="info.people!=null">
+                AND people=#{info.people}
+            </if>
+            <if test="info.type!=null">
+                AND type=#{info.type}
+            </if>
+            <if test="info.port!=null">
+                AND port=#{info.port}
+            </if>
+            <if test="info.jmxPort!=null">
+                AND jmx_port=#{info.jmxPort}
+            </if>
+            <if test="info.tag!=null">
+                AND tag=#{info.tag}
+            </if>
+            <if test="info.namespace!=null">
+                AND namespace=#{info.namespace}
+            </if>
+            <if test="info.clusterId!=null">
+                AND cluster_id=#{info.clusterId}
+            </if>
+            <if test="info.expiryType!=null">
+                AND expiry_type=#{info.expiryType}
+            </if>
+            <if test="info.state!=null">
+                AND state=#{info.state}
+            </if>
+        </trim>
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO pod_info (
+        pod_name, pod_set_id, sub_system, sub_system_id, dcn, pod_ip, gateway_id, subnet_mask, host_ip, cpu, mem, cpu_request, mem_request, disk, itsm_id, people, type, port, jmx_port, tag, namespace, cluster_id,
+        <if test="expiryType!=null">
+            expiry_type,
+        </if>
+        state
+        )
+        VALUES (#{podName}, #{podSetId}, #{subSystem}, #{subSystemId}, #{dcn}, #{podIp}, #{gateway}, #{subnetMask}, #{hostIp}, #{cpu}, #{mem}, #{cpuRequest}, #{memRequest}, #{disk}, #{itsmId}, #{people}, #{type}, #{port}, #{jmxPort}, #{tag}, #{namespace}, #{clusterId},
+        <if test="expiryType!=null">
+            #{expiryType},
+        </if>
+        #{state})
+        ON DUPLICATE KEY UPDATE pod_set_id=#{podSetId}, sub_system=#{subSystem}, sub_system_id=#{subSystemId}, dcn=#{dcn}, pod_ip=#{podIp}, gateway_id=#{gateway}, subnet_mask=#{subnetMask}, host_ip=#{hostIp}, cpu=#{cpu}, mem= #{mem},cpu_request= #{cpuRequest}, mem_request=#{memRequest}, disk=#{disk}, itsm_id=#{itsmId},
+        people=#{people},type=#{type}, port=#{port},jmx_port=#{jmxPort},tag=#{tag},namespace=#{namespace},cluster_id=#{clusterId},
+        <if test="expiryType!=null">
+            expiry_type=#{expiryType},
+        </if>
+        state=#{state}
+    </insert>
+
+    <update id="updatePodInfo">
+        UPDATE pod_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="podName!=null">
+                pod_name=#{podName},
+            </if>
+            <if test="podSetId!=null">
+                pod_set_id=#{podSetId},
+            </if>
+            <if test="subSystem!=null">
+                sub_system=#{subSystem},
+            </if>
+            <if test="subSystemId!=null">
+                sub_system_id=#{subSystemId},
+            </if>
+            <if test="dcn!=null">
+                dcn=#{dcn},
+            </if>
+            <if test="podIp!=null">
+                pod_ip=#{podIp},
+            </if>
+            <if test="gateway!=null">
+                gateway_id=#{gateway},
+            </if>
+            <if test="subnetMask!=null">
+                subnet_mask=#{subnetMask},
+            </if>
+            <if test="hostIp!=null">
+                host_ip=#{hostIp},
+            </if>
+            <if test="cpu!=null">
+                cpu=#{cpu},
+            </if>
+            <if test="mem!=null">
+                mem=#{mem},
+            </if>
+            <if test="cpuRequest!=null">
+                cpu_request=#{cpuRequest},
+            </if>
+            <if test="memRequest!=null">
+                mem_request=#{memRequest},
+            </if>
+            <if test="disk!=null">
+                disk=#{disk},
+            </if>
+            <if test="itsmId!=null">
+                itsm_id=#{itsmId},
+            </if>
+            <if test="offlineItsmId!=null">
+                offline_itsm_id=#{offlineItsmId},
+            </if>
+            <if test="updateItsmId!=null">
+                update_itsm_id=#{updateItsmId},
+            </if>
+            <if test="people!=null">
+                people=#{people},
+            </if>
+            <if test="type!=null">
+                type=#{type},
+            </if>
+            <if test="port!=null">
+                port=#{port},
+            </if>
+            <if test="jmxPort!=null">
+                jmx_port=#{jmxPort},
+            </if>
+            <if test="tag!=null">
+                tag=#{tag},
+            </if>
+            <if test="namespace!=null">
+                namespace=#{namespace},
+            </if>
+            <if test="expiryType!=null">
+                expiry_type=#{expiryType},
+            </if>
+            <if test="clusterId!=null">
+                cluster_id=#{clusterId},
+            </if>
+            <if test="state!=null">
+                state=#{state},
+            </if>
+        </trim>
+        WHERE pod_name=#{podName}
+    </update>
+
+    <select id="getPodInfosByPodNameListIgnoreStatus" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE pod_name IN
+        <foreach collection="podNames" item="podName" index="index" open="(" separator="," close=")">
+            #{podName}
+        </foreach>
+    </select>
+
+    <select id="getPodInfosByPodNameList" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE state !='OFFLINE' AND pod_name IN
+        <foreach collection="podNames" item="podName" index="index" open="(" separator="," close=")">
+            #{podName}
+        </foreach>
+    </select>
+
+    <select id="getPodInfosByPodIpList" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE state !='OFFLINE' AND pod_ip in
+        <foreach collection="podIps" item="podIp" index="index" open="(" separator="," close=")">
+            #{podIp}
+        </foreach>
+    </select>
+
+    <select id="getPodInfoByPodName" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE pod_name=#{podName} limit 1
+    </select>
+
+    <select id="getPodInfoByPodIp" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE pod_ip=#{podIp} AND state!="OFFLINE"
+    </select>
+
+    <select id="getPodInfoBySubsystem" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE (sub_system=#{subSystem} OR sub_system_id=#{subSystem}) AND state!="OFFLINE"
+    </select>
+
+    <select id="getAllPodInfo" resultMap="BaseResultMap">
+        SELECT * FROM pod_info where state!="OFFLINE"
+    </select>
+
+    <select id="getByPage" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE state !="OFFLINE"
+        <include refid="base_column_filter"></include>
+        ORDER BY update_time ASC
+    </select>
+
+    <select id="getByUpdateTime" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE update_time >= #{from} AND update_time &lt;= #{to}
+    </select>
+
+    <select id="getPodInfo" resultMap="BaseResultMap">
+        SELECT * FROM pod_info where state !="OFFLINE"
+        <include refid="base_column_filter"></include>
+    </select>
+
+    <select id="getPodInfoList" resultMap="BaseResultMap">
+        SELECT * FROM pod_info
+        WHERE state!="OFFLINE" ORDER BY `pod_name`
+        LIMIT ${(page-1) * pageSize},${pageSize}
+    </select>
+
+    <update id="recyclePodInfo">
+        UPDATE pod_info set state="OFFLINE",offline_itsm_id=#{offlineItsmId} WHERE pod_ip=#{podIp} AND state!="OFFLINE"
+    </update>
+
+    <update id="changeStatus">
+        UPDATE pod_info SET state=#{to} WHERE pod_name=#{podName} AND state=#{from}
+    </update>
+
+    <update id="batchChangeStatus">
+        UPDATE pod_info SET state=#{to} WHERE state=#{from} AND pod_name IN
+        <foreach collection="podNames" item="podName" index="index" open="(" separator="," close=")">
+            #{podName}
+        </foreach>
+    </update>
+
+    <select id="getPodIpListBySubsystem" resultType="string">
+        SELECT pod_ip FROM pod_info WHERE sub_system=#{subSystem} AND state!="OFFLINE"
+    </select>
+
+    <select id="getPodNameListBySubsystemIdWithoutSetId" resultType="string">
+        SELECT DISTINCT pod_name FROM pod_info WHERE sub_system_id=#{subsystemId} AND state!="OFFLINE" AND pod_set_id IS NULL ORDER BY update_time DESC
+    </select>
+
+    <select id="getPodIpList" resultType="string">
+        SELECT pod_ip FROM pod_info WHERE state!="OFFLINE"
+    </select>
+
+    <select id="getPodIpListByItsmId" resultType="string">
+        SELECT pod_ip FROM pod_info WHERE itsm_id=#{itsmId} AND state!="OFFLINE"
+    </select>
+
+    <select id="getPodIpListByOfflineItsmId" resultType="string">
+        SELECT pod_ip FROM pod_info WHERE offline_itsm_id=#{offlineItsmId} AND state="OFFLINE"
+    </select>
+
+    <select id="getPodListByOfflineItsmId" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE offline_itsm_id=#{offlineItsmId} AND state="OFFLINE"
+    </select>
+
+    <delete id="removePodByIp">
+        DELETE FROM pod_info WHERE pod_ip=#{podIp}
+    </delete>
+
+    <delete id="removePodByName">
+        DELETE FROM pod_info WHERE pod_name=#{podName} LIMIT 1;
+    </delete>
+
+    <delete id="removeAllBySubsystem">
+        DELETE FROM pod_info WHERE sub_system=#{subsystem};
+    </delete>
+
+    <update id="updatePodSubsystemNames">
+        UPDATE pod_info p INNER JOIN subsystem s ON p.sub_system_id = s.subsystem_id SET p.sub_system = s.subsystem_name
+    </update>
+
+    <update id="updatePodNamespace">
+        UPDATE pod_info p INNER JOIN subsystem s ON p.sub_system_id = s.subsystem_id INNER JOIN system sys ON s.system_name = sys.system_name SET p.namespace = sys.namespace
+    </update>
+
+    <select id="getSubsystemIdNullRecordsCount" resultType="int">
+        SELECT COUNT(*) FROM pod_info WHERE sub_system_id IS NULL OR sub_system_id = ''
+    </select>
+
+    <select id="getPodsCountByClusterId" resultType="int">
+        SELECT COUNT(*) FROM pod_info WHERE cluster_id = #{clusterId} AND state!="OFFLINE"
+    </select>
+
+    <select id="getPodListByHostIp" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE host_ip=#{hostIp} AND state!="OFFLINE"
+    </select>
+
+    <select id="getAllocatedInstanceBySubsystemAndDcn" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE sub_system=#{subsystem} AND dcn=#{dcn} AND state="ALLOCATED"
+    </select>
+
+    <select id="getHostIp" resultType="string">
+        SELECT host_ip FROM pod_info WHERE pod_ip=#{podIp} AND state!="OFFLINE"
+    </select>
+
+    <select id="getAllSubSystem" resultType="string">
+        SELECT DISTINCT sub_system FROM pod_info WHERE state!="OFFLINE"
+    </select>
+
+    <select id="getAllSubSystemId" resultType="string">
+        SELECT DISTINCT sub_system_id FROM pod_info WHERE state!="OFFLINE"
+    </select>
+
+    <select id="getPodListByItsmId" resultMap="BaseResultMap">
+        SELECT * FROM pod_info WHERE itsm_id=#{itsmId} AND state!="OFFLINE"
+    </select>
+</mapper>

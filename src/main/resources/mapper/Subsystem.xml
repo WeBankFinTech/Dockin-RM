@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) @2020 Webank Group Holding Limited
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License. You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software distributed under the License
+  ~ is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  ~ or implied. See the License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.webank.dockin.rm.database.dao.SubsystemDAO">
+    <resultMap id="BaseResultMap"
+               type="cn.webank.dockin.rm.database.dto.Subsystem">
+        <result column="subsystemName" jdbcType="VARCHAR" property="subsystem_name"/>
+        <result column="importantLevel" jdbcType="VARCHAR" property="important_level"/>
+        <result column="subsystemId" jdbcType="VARCHAR" property="subsystem_id"/>
+        <result column="systemName" jdbcType="VARCHAR" property="system_name"/>
+        <result column="logicArea" jdbcType="VARCHAR" property="logic_area"/>
+        <result column="devLanguage" jdbcType="VARCHAR" property="dev_language"/>
+        <result column="busiResDept" jdbcType="VARCHAR" property="busiResDept"/>
+        <result column="proOperGroup" jdbcType="VARCHAR" property="pro_oper_group"/>
+    </resultMap>
+
+    <sql id="base_column_filter">
+        <if test="info.subsystemName != null">AND subsystem_name = #{info.subsystemName}</if>
+        <if test="info.importantLevel != null">AND important_level = #{info.importantLevel}</if>
+        <if test="info.subsystemId != null">AND subsystem_id = #{info.subsystemId}</if>
+        <if test="info.systemName != null">AND system_name = #{info.systemName}</if>
+        <if test="info.logicArea != null">AND logic_area = #{info.logicArea}</if>
+        <if test="info.devLanguage != null">AND dev_language = #{info.devLanguage}</if>
+        <if test="info.busiResDept != null">AND busiResDept = #{info.busiResDept}</if>
+        <if test="info.proOperGroup != null">AND pro_oper_group = #{info.proOperGroup}</if>
+    </sql>
+
+    <insert id="batchInsert">
+        INSERT INTO subsystem
+        (subsystem_name,important_level,subsystem_id,system_name,logic_area,dev_language,busiResDept,pro_oper_group)
+        VALUES
+        <foreach collection="subsystems" item="subsystem" index="index" separator=",">
+            (
+            #{subsystem.subsystemName},#{subsystem.importantLevel},#{subsystem.subsystemId},#{subsystem.systemName},#{subsystem.logicArea},#{subsystem.devLanguage},#{subsystem.busiResDept},#{subsystem.proOperGroup}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE subsystem_name = VALUES(subsystem_name), system_name = VALUES(system_name),  important_level = VALUES (important_level),
+        logic_area = VALUES (logic_area), dev_language = VALUES (dev_language), busiResDept = VALUES (busiResDept), pro_oper_group = VALUES(pro_oper_group)
+    </insert>
+
+    <insert id="insert" parameterType="cn.webank.dockin.rm.database.dto.Subsystem">
+        INSERT INTO subsystem
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="subsystemName != null">subsystem_name,</if>
+            <if test="importantLevel != null">important_level,</if>
+            <if test="subsystemId != null">subsystem_id,</if>
+            <if test="systemName != null">system_name,</if>
+            <if test="logicArea != null">logic_area,</if>
+            <if test="devLanguage != null">dev_language,</if>
+            <if test="busiResDept != null">busiResDept,</if>
+            <if test="proOperGroup != null">pro_oper_group,</if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="subsystemName != null">#{subsystemName},</if>
+            <if test="importantLevel != null">#{importantLevel},</if>
+            <if test="subsystemId != null">#{subsystemId},</if>
+            <if test="systemName != null">#{systemName},</if>
+            <if test="logicArea != null">#{logicArea},</if>
+            <if test="devLanguage != null">#{devLanguage},</if>
+            <if test="busiResDept != null">#{busiResDept},</if>
+            <if test="proOperGroup != null">#{proOperGroup},</if>
+        </trim>
+        )
+        ON DUPLICATE KEY UPDATE subsystem_name = #{subsystemName},important_level = #{importantLevel},subsystem_id=
+        #{subsystemId},system_name= #{systemName},logic_area= #{logicArea},dev_language= #{devLanguage},busiResDept=
+        #{busiResDept},pro_oper_group=#{proOperGroup}
+    </insert>
+
+    <update id="update" parameterType="cn.webank.dockin.rm.database.dto.Subsystem">
+        UPDATE subsystem
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subsystemName != null">subsystem_name = #{subsystemName},</if>
+            <if test="importantLevel != null">important_level = #{importantLevel},</if>
+            <if test="subsystemId != null">subsystem_id = #{subsystemId},</if>
+            <if test="systemName != null">system_name = #{systemName},</if>
+            <if test="logicArea != null">logic_area = #{logicArea},</if>
+            <if test="devLanguage != null">dev_language = #{devLanguage},</if>
+            <if test="busiResDept != null">busiResDept = #{busiResDept},</if>
+            <if test="proOperGroup != null">pro_oper_group = #{proOperGroup},</if>
+        </trim>
+        WHERE subsystem_id=#{subsystemId}
+    </update>
+
+    <select id="getBySubsystemName" parameterType="cn.webank.dockin.rm.database.dto.Subsystem" resultMap="BaseResultMap">
+        SELECT * FROM subsystem WHERE subsystem_name=#{subsystemName}
+    </select>
+
+    <select id="getBySubsystemId" parameterType="cn.webank.dockin.rm.database.dto.Subsystem" resultMap="BaseResultMap">
+        SELECT * FROM subsystem WHERE subsystem_id=#{subsystemId}
+    </select>
+
+    <select id="getByPage" resultMap="BaseResultMap">
+        SELECT * FROM subsystem
+        <where>
+            <include refid="base_column_filter"></include>
+        </where>
+        ORDER BY update_time ASC
+    </select>
+</mapper>

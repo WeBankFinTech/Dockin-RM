@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) @2020 Webank Group Holding Limited
+  ~ <p>
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License. You may obtain a copy of the License at
+  ~ <p>
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ <p>
+  ~ Unless required by applicable law or agreed to in writing, software distributed under the License
+  ~ is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  ~ or implied. See the License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.webank.dockin.rm.database.dao.PodNetworkDAO">
+    <resultMap id="PodNetwork"
+               type="cn.webank.dockin.rm.database.dto.PodNetwork">
+        <result column="pod_name" jdbcType="VARCHAR" property="podName"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="subnet_mask" jdbcType="VARCHAR" property="subnetMask"/>
+        <result column="gateway" jdbcType="VARCHAR" property="gateway"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="cn.webank.dockin.rm.database.dto.PodNetwork">
+        INSERT INTO pod_network
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="podName != null">pod_name,</if>
+            <if test="ip != null">ip,</if>
+            <if test="type != null">type,</if>
+            <if test="subnetMask != null">subnet_mask,</if>
+            <if test="gateway != null">gateway,</if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="podName != null">#{podName},</if>
+            <if test="ip != null">#{ip},</if>
+            <if test="type != null">#{type},</if>
+            <if test="subnetMask != null">#{subnetMask},</if>
+            <if test="gateway != null">#{gateway},</if>
+        </trim>
+        )
+        on duplicate KEY UPDATE
+        <trim prefix="" suffixOverrides=",">
+            <if test="podName != null">pod_name = #{podName},</if>
+            <if test="ip != null">ip = #{ip},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="subnetMask != null">subnet_mask = #{subnetMask},</if>
+            <if test="gateway != null">gateway = #{gateway},</if>
+        </trim>
+    </insert>
+
+    <select id="getByPodName" resultMap="PodNetwork">
+        SELECT * FROM pod_network WHERE pod_name = #{podName};
+    </select>
+
+    <delete id="deleteByPodName">
+        DELETE FROM pod_network WHERE pod_name = #{podName};
+    </delete>
+</mapper>
