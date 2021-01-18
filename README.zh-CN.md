@@ -1,8 +1,12 @@
 # Dockin RM - Dockin Resource Manager
 
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 [English](README.md) | 中文
 
 Dockin容器平台资源管理器，是应用定义和容器实例管理的核心模块，提供容器分配、回收、查询等功能。
+
+**更多Dockin组件请访问 [https://github.com/WeBankFinTech/Dockin](https://github.com/WeBankFinTech/Dockin)**
 
 ![Architecture](docs/images/dockin.png)
 

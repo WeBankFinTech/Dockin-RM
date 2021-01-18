@@ -1,9 +1,13 @@
 # Dockin RM - Dockin Resource Manager
 
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 English | [中文](README.zh-CN.md)
 
 Dockin container platform resource manager is the core module for application definition 
 and container instance management, providing container allocation, recycling, and query functions.
+
+**For more Dockin components, please visit [https://github.com/WeBankFinTech/Dockin](https://github.com/WeBankFinTech/Dockin)**
 
 
 ![Architecture](docs/images/dockin.png)
