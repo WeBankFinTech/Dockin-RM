@@ -45,3 +45,4 @@ application.pid
 sys.pid
 tomcat/
 out/
+.source
