@@ -1,5 +1,5 @@
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -11,17 +11,13 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.utils;
 import cn.webank.dockin.rm.exception.SysException;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-
 import java.text.NumberFormat;
 import java.text.ParseException;
-
 public class StringFormatter {
-
     public static double parseNumberFromPercentage(String percentage) {
         NumberFormat nf = NumberFormat.getPercentInstance();
         try {

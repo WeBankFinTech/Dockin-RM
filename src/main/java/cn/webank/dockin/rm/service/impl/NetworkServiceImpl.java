@@ -1,5 +1,5 @@
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -11,11 +11,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.service.impl;
 import cn.webank.dockin.rm.database.dao.PodInfoDAO;
 import cn.webank.dockin.rm.database.dao.PodNetworkDAO;
-import cn.webank.dockin.rm.database.dto.PodInfoDTO;
+import cn.webank.dockin.rm.database.dto.PodInfo;
 import cn.webank.dockin.rm.database.dto.PodNetwork;
 import cn.webank.dockin.rm.bean.biz.PodNetworkInfoRsp;
 import cn.webank.dockin.rm.bean.biz.ResultDto;
@@ -30,51 +29,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import java.util.List;
-
 import static cn.webank.dockin.rm.common.Constants.FAIL;
-
-
 @Service
 public class NetworkServiceImpl implements NetworkService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private PodInfoDAO podInfoDAO;
-
     @Autowired
     private PodNetworkDAO podNetworkDAO;
-
     @Override
     public ResultDto<List<Network>> getPodNetwork(String podName) {
         ResultDto<List<Network>> result = new ResultDto();
         logger.info("pod name of request from cni is {}", podName);
-
         if (StringUtils.isEmpty(podName)) {
             result.setMessage("illegal parameter, pod name is empty");
             return result;
         }
-
         try {
-            PodInfoDTO podInfoDTO = podInfoDAO.getPodInfoByPodName(podName);
-            if (podInfoDTO == null) {
+            PodInfo podInfo = podInfoDAO.getPodInfoByPodName(podName);
+            if (podInfo == null) {
                 result.setMessage(String.format("pod info not found for pod name: %s", podName));
                 result.setCode(FAIL);
                 return result;
             }
-
-            if (Constants.POD_OFFLINE.equals(podInfoDTO.getState())) {
+            if (Constants.POD_OFFLINE.equals(podInfo.getState())) {
                 result.setMessage(String.format("pod state is offline, pod name: %s", podName));
                 result.setCode(FAIL);
                 return result;
             }
             Network network = new Network();
-            network.setPodIp(podInfoDTO.getPodIp());
-            network.setGateway(podInfoDTO.getGateway());
-            network.setSubnetMask(podInfoDTO.getSubnetMask());
+            network.setPodIp(podInfo.getPodIp());
+            network.setGateway(podInfo.getGateway());
+            network.setSubnetMask(podInfo.getSubnetMask());
             network.setMaster(true);
             network.setIfName("eth0");
             network.setType(NetworkType.WEBANK.value);
-
             List<Network> networks = Lists.newArrayList();
             networks.add(network);
             List<PodNetwork> addNetworks = podNetworkDAO.getByPodName(podName);
@@ -92,7 +81,6 @@ public class NetworkServiceImpl implements NetworkService {
                     networks.add(network);
                 }
             }
-
             result.setData(networks);
             result.setCode(Constants.SUCCESS);
         } catch (Exception e) {
@@ -101,29 +89,25 @@ public class NetworkServiceImpl implements NetworkService {
         }
         return result;
     }
-
-    
     @Override
     public ResultDto getPodNetworkInfoByPodName(String podName) {
         ResultDto resultDto = new ResultDto();
         try {
-            PodInfoDTO podInfoDTO = podInfoDAO.getPodInfoByPodName(podName);
-            if (podInfoDTO == null) {
+            PodInfo podInfo = podInfoDAO.getPodInfoByPodName(podName);
+            if (podInfo == null) {
                 resultDto.setMessage(String.format("pod info not found for pod name: %s", podName));
                 resultDto.setCode(FAIL);
                 return resultDto;
             }
-
-            if (Constants.POD_OFFLINE.equals(podInfoDTO.getState())) {
+            if (Constants.POD_OFFLINE.equals(podInfo.getState())) {
                 resultDto.setMessage(String.format("pod state is offline, pod name: %s", podName));
                 resultDto.setCode(FAIL);
                 return resultDto;
             }
-
             PodNetworkInfoRsp podNetworkInfoRsp = new PodNetworkInfoRsp();
-            podNetworkInfoRsp.setPodIp(podInfoDTO.getPodIp());
-            podNetworkInfoRsp.setGateway(podInfoDTO.getGateway());
-            podNetworkInfoRsp.setSubnetMask(podInfoDTO.getSubnetMask());
+            podNetworkInfoRsp.setPodIp(podInfo.getPodIp());
+            podNetworkInfoRsp.setGateway(podInfo.getGateway());
+            podNetworkInfoRsp.setSubnetMask(podInfo.getSubnetMask());
             resultDto.setData(podNetworkInfoRsp);
             resultDto.setCode(Constants.SUCCESS);
         } catch (Exception e) {

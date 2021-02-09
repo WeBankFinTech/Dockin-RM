@@ -1,5 +1,5 @@
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -11,9 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.web.controller;
-
 import cn.webank.dockin.rm.bean.biz.ResultDto;
 import cn.webank.dockin.rm.common.Constants;
 import cn.webank.dockin.rm.utils.StringBuilderHolder;
@@ -35,14 +33,11 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.UrlPathHelper;
 import org.springframework.web.util.WebUtils;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Locale;
-
-
 public class BaseController {
     public static final String RESULT_CODE_KEY = "resultCode";
     protected static final Logger MONITOR_LOGGER =
@@ -60,36 +55,27 @@ public class BaseController {
     private int defaultMaxTimeout = 300_000;
     @Autowired
     private RequestMappingHandlerMapping handlerMapping;
-
     protected ThreadPoolTaskExecutor getFrontTaskExecutor() {
         return frontTaskExecutor;
     }
-
     protected <T> DeferredResult<T> buildDeferredResultWithTimeout(long timeoutMilliSeconds, T defaultTimeoutReturndefaultWebMessage) {
-
         DeferredResult<T> deferredResult = new DeferredResult<T>(timeoutMilliSeconds, defaultTimeoutReturndefaultWebMessage);
         return deferredResult;
     }
-
     public RequestMappingHandlerMapping getHandlerMapping() {
         return handlerMapping;
     }
-
     protected Locale getLocale(HttpServletRequest request) {
         Locale locale = (Locale) WebUtils.getSessionAttribute(request,
                 SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
-
         if (locale == null) {
             locale = request.getLocale();
         }
-
         if (locale == null) {
             locale = Locale.CHINESE;
         }
-
         return locale;
     }
-
     protected <E extends BaseDTO, T> DeferredResult<T> execute(
             HttpServletRequest httpServletRequest, HttpServletResponse httpServlvetResponse,
             E requestDto, long timeoutMilliSeconds, ExecServiceTemplate<E, T> template,
@@ -100,9 +86,7 @@ public class BaseController {
             Assert.isTrue(timeoutMilliSeconds <= defaultMaxTimeout,
                     String.format("timeout is invalid:%s milliseconds more than %s milliseconds",
                             timeoutMilliSeconds, defaultMaxTimeout));
-
             deferredResult = buildDeferredResultWithTimeout(timeoutMilliSeconds, timeoutReturndefaultWebMessage);
-
             Method method = null;
             if (this.getHandlerMapping() != null) {
                 HandlerExecutionChain handler =
@@ -110,7 +94,6 @@ public class BaseController {
                 HandlerMethod hm = (HandlerMethod) handler.getHandler();
                 method = hm.getMethod();
             }
-
             String requestUri = URL_PATH_HELPER.getRequestUri(httpServletRequest);
             Locale locale = getLocale(httpServletRequest);
             DeferredResultRunnable<E, T> r = new DeferredResultRunnable<E, T>(method, requestUri,
@@ -120,27 +103,20 @@ public class BaseController {
             getFrontTaskExecutor().submit(r);
         } catch (Exception e) {
             LOG.error("execute fail", e);
-
-
             T m = exceptionReturndefaultWebMessage;
-
             if (m != null && (m instanceof BaseMessage)) {
                 ((BaseMessage) m)
                         .setResponseStatus(ResponseStatus.FRONT_INTERNAL_SERVER_ERROR);
             }
-
             deferredResult = new DeferredResult<T>();
             deferredResult.setResult(m);
-
             if (throwHttpResponseErrorWhenException) {
                 httpServlvetResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             }
         } finally {
         }
-
         return deferredResult;
     }
-
     protected <E extends BaseDTO, T> DeferredResult<T> execute(
             HttpServletRequest httpServletRequest, HttpServletResponse httpServlvetResponse,
             E requestDto, long timeoutMilliSeconds, ExecServiceTemplate<E, T> template,
@@ -149,7 +125,6 @@ public class BaseController {
         return this.execute(httpServletRequest, httpServlvetResponse, requestDto, timeoutMilliSeconds, template,
                 timeoutReturndefaultWebMessage, exceptionReturndefaultWebMessage, false);
     }
-
     protected void logMonitor(String callerClassName, String callerMethodName, long responseTime,
                               String resultFlag, Exception sysException, BizErrors errors) {
         String bizRetCode = null;
@@ -178,20 +153,16 @@ public class BaseController {
                 "");
         MONITOR_LOGGER.info(formatMonitorMsg);
     }
-
     protected <T> T handleFailResponseMessage(Exception e, T exceptionReturndefaultWebMessage) {
         T m = exceptionReturndefaultWebMessage;
-
         if (m != null && (m instanceof BaseMessage)) {
             ((BaseMessage) m).setResponseStatus(ResponseStatus.FRONT_INTERNAL_SERVER_ERROR);
         }
         return m;
     }
-
     protected <T> T handleSuccessResponseMessage(T result, BizErrors bizErrors, Locale locale,
                                                  ReloadableResourceBundleMessageSource bundleMessageSource) {
         final Locale myLocale = locale == null ? Locale.getDefault() : locale;
-
         if (bizErrors != null && bizErrors.hasErrors()) {
             StringBuilder sb = THREADLOCAL_STRINGBUILDER_HOLDER.get().resetAndGetStringBuilder();
             List<BizError> allErrors = bizErrors.getAllErrors();
@@ -206,25 +177,20 @@ public class BaseController {
         }
         return result;
     }
-
     public ResultDto getExceptionDefaultResult(HttpServletRequest httpRequest) {
         logger.warn("exception request: uri={}, parameters={}", httpRequest.getRequestURI(), httpRequest.getParameterMap());
-
         ResultDto response = new ResultDto();
         response.setCode(Constants.FAIL);
         response.setMessage("server error");
         return response;
     }
-
     public ResultDto getTimeoutDefaultResult(HttpServletRequest httpRequest) {
         logger.warn("timeout request: uri={}, parameters={}", httpRequest.getRequestURI(), httpRequest.getParameterMap());
-
         ResultDto response = new ResultDto();
         response.setCode(Constants.FAIL);
         response.setMessage("timeout");
         return response;
     }
-
     private class DeferredResultRunnable<E extends BaseDTO, T> implements Runnable {
         private DeferredResult<T> deferredResult;
         private ExecServiceTemplate<E, T> service;
@@ -236,9 +202,7 @@ public class BaseController {
         private HttpServletResponse httpServletResponse;
         private String requestUri;
         private T exceptionReturnDefaultObject;
-
         private boolean throwHttpResponseErrorWhenException;
-
         public DeferredResultRunnable(Method callerMethod, String requestUri, DeferredResult<T> d,
                                       ExecServiceTemplate<E, T> s, E requestDto, Locale locale,
                                       ReloadableResourceBundleMessageSource bundleMessageSource,
@@ -256,12 +220,6 @@ public class BaseController {
             this.exceptionReturnDefaultObject = exceptionReturnDefaultObject;
             this.throwHttpResponseErrorWhenException = throwHttpResponseErrorWhenException;
         }
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see java.lang.Runnable#run()
-         */
         @Override
         public void run() {
             T responseObject = null;
@@ -282,39 +240,29 @@ public class BaseController {
                     callerMethodName = this.callerMethod.getName();
                 }
                 result = this.service.apply(requestDto, bizErrors);
-
                 responseObject =
                         handleSuccessResponseMessage(result, bizErrors, locale, bundleMessageSource);
-
                 statusCode = bizErrors != null && bizErrors.hasErrors()
                         ? ResponseStatus.FRONT_INTERNAL_SERVER_ERROR.getCode()
                         : ResponseStatus.SUCCESS.getCode();
-
                 resultFlag = bizErrors != null && bizErrors.hasErrors()
                         ? MonitorKeys.BIZ_FAIL_FLAG
                         : MonitorKeys.SUCCESS_FLAG;
-
             } catch (Exception e) {
                 sysException = e;
                 LOG.error("service error,request message:" + requestDto, e);
                 statusCode = ResponseStatus.FRONT_INTERNAL_SERVER_ERROR.getCode();
                 responseObject = handleFailResponseMessage(e, this.exceptionReturnDefaultObject);
-
                 if (this.throwHttpResponseErrorWhenException) {
                     httpServletResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
                 }
-
                 resultFlag = MonitorKeys.SYS_FAIL_FLAG;
-
             } finally {
                 deferredResult.setResult(responseObject);
-
                 long endTime = System.currentTimeMillis();
                 long responseTime = endTime - beginTime;
                 logMonitor(callerClassName, callerMethodName, responseTime, resultFlag, sysException, bizErrors);
             }
-
-
         }
     }
 }

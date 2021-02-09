@@ -1,5 +1,5 @@
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -11,30 +11,23 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.bean.network;
-
 public enum NetworkType {
     WEBANK("webank"),
     ECN("ecn"),
     DMZ("dmz"),
     IECN("ecn");
-
     public String value;
-
     NetworkType(String value) {
         this.value = value;
     }
-
     @Override
     public String toString() {
         return value;
     }
-
     public String getValue() {
         return value;
     }
-
     public void setValue(String value) {
         this.value = value;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -11,21 +11,15 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.utils;
-
 import cn.webank.dockin.rm.bean.biz.ResultDto;
 import org.springframework.util.Assert;
-
 import javax.servlet.http.HttpServletRequest;
-
 public class RmUtil {
     public static boolean mockTest = false;
-
     public static boolean isMockTest() {
         return mockTest;
     }
-
     public static void appendResultMsg(ResultDto resultDto, String msg) {
         Assert.notNull(resultDto, "resultDto can not be null");
         StringBuilder sb = new StringBuilder(msg);
@@ -33,10 +27,8 @@ public class RmUtil {
             sb.append(";");
             sb.append(resultDto.getMessage());
         }
-
         resultDto.setMessage(sb.toString());
     }
-
     public static String getIP(HttpServletRequest request) {
         String remoteAddr = request.getRemoteAddr();
         String forwarded = request.getHeader("X-Forwarded-For");

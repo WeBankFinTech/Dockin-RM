@@ -1,5 +1,5 @@
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -11,9 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.http;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.config.RequestConfig;
@@ -25,7 +23,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,21 +30,17 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
-
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
-
 public class PostDataJob implements Callable<String> {
     public static final int REQUEST_TIMEOUT_SECONDS = 15;
     String uri;
     String requestBody;
     HashMap<String, String> paramMap;
     private Logger logger = LoggerFactory.getLogger(PostDataJob.class);
-
     public PostDataJob(String uri, String requestBody) {
         this.uri = uri;
         this.requestBody = requestBody;
     }
-
     @Override
     public String call() throws Exception {
         int timeout = REQUEST_TIMEOUT_SECONDS;
@@ -72,26 +65,21 @@ public class PostDataJob implements Callable<String> {
                 httpPost.setHeader("Content-type", "application/json");
                 logger.debug("send http request param: " + nvps.toString());
             }
-
             logger.debug("Executing request: " + httpPost.getRequestLine());
-
             ResponseHandler<String> responseHandler = new DataResponseHandler();
             String responseBody = httpclient.execute(httpPost, responseHandler);
             logger.debug("Response: " + responseBody);
-
             return responseBody;
         } finally {
             httpPost.releaseConnection();
             httpclient.close();
         }
     }
-
     public String execute() throws ExecutionException, InterruptedException {
         FutureTask task = new FutureTask(this);
         task.run();
         return (String) task.get();
     }
-
     @Override
     public String toString() {
         return "PostDataJob{" +

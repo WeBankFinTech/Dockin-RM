@@ -1,5 +1,5 @@
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -11,11 +11,9 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.web.service;
-
 import cn.webank.dockin.rm.bean.biz.ResultDto;
-import cn.webank.dockin.rm.bean.pod.PodInfo;
+import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
 import cn.webank.dockin.rm.common.Constants;
 import cn.webank.dockin.rm.service.*;
 import cn.webank.dockin.rm.web.bean.GetPodDTO;
@@ -25,30 +23,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
-
-
 @Service
 public class QueryRmService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     PodInfoService podInfoService;
-
-    public ResultDto<List<PodInfo>> getPodInfoByPodSetId(String podSetId) {
-        ResultDto<List<PodInfo>> result = new ResultDto();
+    public ResultDto<List<PodInfoDTO>> getPodInfoByPodSetId(String podSetId) {
+        ResultDto<List<PodInfoDTO>> result = new ResultDto();
         if (StringUtils.isEmpty(podSetId)) {
             result.setCode(Constants.FAIL);
             result.setMessage("illegal parameter, pod set id is empty");
             return result;
         }
-
         try {
-            List<PodInfo> podInfoList = podInfoService.getPodInfoByPodSetId(podSetId);
-            if (podInfoList != null && podInfoList.size() > 0) {
-                result.setData(podInfoList);
+            List<PodInfoDTO> podInfoDTOList = podInfoService.getPodInfoByPodSetId(podSetId);
+            if (podInfoDTOList != null && podInfoDTOList.size() > 0) {
+                result.setData(podInfoDTOList);
                 result.setCode(Constants.SUCCESS);
             } else {
                 result.setCode(Constants.FAIL);
@@ -58,33 +50,24 @@ public class QueryRmService {
             result.setCode(Constants.FAIL);
             result.setMessage("query failed:" + e.getMessage());
         }
-
         logger.info("getPodInfoByPodSetId podSetId {}, result {}", podSetId, result);
         return result;
     }
-
-    private List<PodInfo> matchResult(List<PodInfo> podInfoList, GetPodDTO getPodDTO) {
-        if (CollectionUtils.isEmpty(podInfoList)) return new ArrayList<>();
-
-        List<PodInfo> matchedList = new ArrayList<>();
-
-        for (PodInfo podInfo : podInfoList) {
-            if ((getPodDTO.getPodName() == null || podInfo.getPodName().equals(getPodDTO.getPodName()))
-                    && (getPodDTO.getPodSetId() == null || podInfo.getPodSetId().equals(getPodDTO.getPodSetId()))
-                    && (getPodDTO.getHostIp() == null || podInfo.getHostIp().equals(getPodDTO.getHostIp()))
-                    && (getPodDTO.getSubsystem() == null || podInfo.getSubSystem().equals(getPodDTO.getSubsystem()))
-                    && (getPodDTO.getDcn() == null || podInfo.getDcn().equals(getPodDTO.getDcn()))
+    private List<PodInfoDTO> matchResult(List<PodInfoDTO> podInfoDTOList, GetPodDTO getPodDTO) {
+        if (CollectionUtils.isEmpty(podInfoDTOList)) return new ArrayList<>();
+        List<PodInfoDTO> matchedList = new ArrayList<>();
+        for (PodInfoDTO podInfoDTO : podInfoDTOList) {
+            if ((getPodDTO.getPodName() == null || podInfoDTO.getPodName().equals(getPodDTO.getPodName()))
+                    && (getPodDTO.getPodSetId() == null || podInfoDTO.getPodSetId().equals(getPodDTO.getPodSetId()))
+                    && (getPodDTO.getHostIp() == null || podInfoDTO.getHostIp().equals(getPodDTO.getHostIp()))
+                    && (getPodDTO.getSubsystem() == null || podInfoDTO.getSubSystem().equals(getPodDTO.getSubsystem()))
+                    && (getPodDTO.getDcn() == null || podInfoDTO.getDcn().equals(getPodDTO.getDcn()))
             ) {
-                matchedList.add(podInfo);
+                matchedList.add(podInfoDTO);
             }
         }
-
         return matchedList;
     }
-
-    
     public void validate(GetPodDTO getPodDTO) {
     }
 }
-
-
