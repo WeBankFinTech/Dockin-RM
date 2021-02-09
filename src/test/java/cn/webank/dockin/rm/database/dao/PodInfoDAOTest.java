@@ -17,7 +17,7 @@ package cn.webank.dockin.rm.database.dao;
 import cn.webank.dockin.rm.bean.PageInfo;
 import cn.webank.dockin.rm.bean.pod.PodStatus;
 import cn.webank.dockin.rm.server.DockinRMServer;
-import cn.webank.dockin.rm.database.dto.PodInfoDTO;
+import cn.webank.dockin.rm.database.dto.PodInfo;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +25,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.Test;
 
 import java.util.Collections;
 import java.util.Date;
@@ -44,14 +43,14 @@ public class PodInfoDAOTest {
 
 //    @Test
     public void testGetPodList() throws Exception {
-        List<PodInfoDTO> list = podInfoDAO.getPodInfoList(1, 10);
+        List<PodInfo> list = podInfoDAO.getPodInfoList(1, 10);
         System.out.println(list.size());
     }
 
 //    @Test
     public void testAll() {
         try {
-            PodInfoDTO podInfoDTO = new PodInfoDTO("dockin-1", "1001-0", "umg-core", "1001", "101", "192.168.34.46", "192.168.34.1", "255.255.255.0", "192.168.96.21", 2, 4, 2, 4, 100, "100000001", "alanwwu", "JAVA", 36000, 8080, "A-TAG", "tctp", 1, "aaa", "ALLOCATED");
+            PodInfo podInfoDTO = new PodInfo("dockin-1", "1001-0", "umg-core", "1001", "101", "192.168.34.46", "192.168.34.1", "255.255.255.0", "192.168.96.21", 2, 4, 2, 4, 100, "100000001", "alanwwu", "JAVA", 36000, 8080, "A-TAG", "tctp", 1, "aaa", "ALLOCATED");
             podInfoDAO.insert(podInfoDTO);
             Assert.assertEquals(podInfoDAO.getPodInfoByPodName("dockin-1"), podInfoDTO);
             assert podInfoDAO.getPodsCountByClusterId("aaa") > 0;
@@ -59,7 +58,7 @@ public class PodInfoDAOTest {
             Assert.assertEquals(1, podInfoDAO.getByPage(podInfoDTO, new PageInfo()).size());
 
             List<String> podNames = Collections.singletonList(podInfoDTO.getPodName());
-            List<PodInfoDTO> podinfos = podInfoDAO.getPodInfosByPodNameList(podNames);
+            List<PodInfo> podinfos = podInfoDAO.getPodInfosByPodNameList(podNames);
 
             Assert.assertNotEquals(podInfoDAO.getByUpdateTime(new Date(System.currentTimeMillis() - 10 * 1000), new Date()), 0);
 

@@ -17,7 +17,7 @@ package cn.webank.dockin.rm.service.impl;
 import cn.webank.dockin.rm.database.dao.HostInfoDAO;
 import cn.webank.dockin.rm.database.dao.PodInfoDAO;
 import cn.webank.dockin.rm.database.dto.HostInfo;
-import cn.webank.dockin.rm.database.dto.PodInfoDTO;
+import cn.webank.dockin.rm.database.dto.PodInfo;
 import cn.webank.dockin.rm.server.DockinRMServer;
 import cn.webank.dockin.rm.service.PodInfoService;
 import cn.webank.dockin.rm.service.PodSetService;
@@ -30,7 +30,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.Test;
 
 
 @SpringBootTest(classes = {DockinRMServer.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -73,7 +72,7 @@ public class PodInfoServiceTest {
         hostInfo.setClusterVersion("1");
 
         hostInfoDAO.insertHostInfo(hostInfo);
-        PodInfoDTO podInfoDTO = new PodInfoDTO("Dockin-query-192.168-34-46", "1111-0",
+        PodInfo podInfoDTO = new PodInfo("Dockin-query-192.168-34-46", "1111-0",
                 "Dockin-query", "1111", "101", "192.168.34.46", "192.168.34.1",
                 "255.255.255.0", "192.168.96.21", 2, 4, 2, 4,
                 100, "10000001", "alanwwu", "JAVA", 36000, 8080,
