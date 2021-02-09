@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -13,7 +17,7 @@
  */
 
 package cn.webank.dockin.rm.database.dao.impl;
-import cn.webank.dockin.rm.database.dto.PodInfoDTO;
+import cn.webank.dockin.rm.database.dto.PodInfo;
 import cn.webank.dockin.rm.bean.PageInfo;
 import cn.webank.dockin.rm.database.WbSqlSession;
 import cn.webank.dockin.rm.database.dao.AbstractSimpleDAO;
@@ -31,7 +35,7 @@ import java.util.Set;
 @Repository
 public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     @Override
-    public int insert(PodInfoDTO podInfo) throws Exception {
+    public int insert(PodInfo podInfo) throws Exception {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.insert(podInfo);
@@ -39,7 +43,7 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public PodInfoDTO getPodInfoByPodName(String podName) throws Exception {
+    public PodInfo getPodInfoByPodName(String podName) throws Exception {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getPodInfoByPodName(podName);
@@ -47,7 +51,7 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public List<PodInfoDTO> getPodInfoBySubsystem(String subSystem) throws Exception {
+    public List<PodInfo> getPodInfoBySubsystem(String subSystem) throws Exception {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getPodInfoBySubsystem(subSystem);
@@ -63,7 +67,7 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public PodInfoDTO getPodInfoByPodIp(String podIp) throws Exception {
+    public PodInfo getPodInfoByPodIp(String podIp) throws Exception {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getPodInfoByPodIp(podIp);
@@ -71,7 +75,7 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public List<PodInfoDTO> getAllPodInfo() throws Exception {
+    public List<PodInfo> getAllPodInfo() throws Exception {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getAllPodInfo();
@@ -79,7 +83,7 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public List<PodInfoDTO> getPodInfoList(int page, int pageSize) throws Exception {
+    public List<PodInfo> getPodInfoList(int page, int pageSize) throws Exception {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getPodInfoList(page, pageSize);
@@ -112,18 +116,18 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public int updatePodInfo(PodInfoDTO podInfoDTO) throws Exception {
-        if (StringUtils.isEmpty(podInfoDTO.getPodName())) {
+    public int updatePodInfo(PodInfo podInfo) throws Exception {
+        if (StringUtils.isEmpty(podInfo.getPodName())) {
             throw new Exception("podName can not be empty");
         }
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
-            return mapper.updatePodInfo(podInfoDTO);
+            return mapper.updatePodInfo(podInfo);
         }
     }
 
     @Override
-    public List<PodInfoDTO> getPodListByHostIp(String hostIp) throws Exception {
+    public List<PodInfo> getPodListByHostIp(String hostIp) throws Exception {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getPodListByHostIp(hostIp);
@@ -147,7 +151,7 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public List<PodInfoDTO> getPodInfosByPodNameList(List<String> podNames) throws SQLException {
+    public List<PodInfo> getPodInfosByPodNameList(List<String> podNames) throws SQLException {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getPodInfosByPodNameList(podNames);
@@ -155,7 +159,7 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public List<PodInfoDTO> getPodInfosByPodIpList(List<String> podIps) throws SQLException {
+    public List<PodInfo> getPodInfosByPodIpList(List<String> podIps) throws SQLException {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getPodInfosByPodIpList(podIps);
@@ -163,7 +167,7 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public List<PodInfoDTO> getPodInfosByPodNameListIgnoreStatus(List<String> podNames) throws SQLException {
+    public List<PodInfo> getPodInfosByPodNameListIgnoreStatus(List<String> podNames) throws SQLException {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getPodInfosByPodNameListIgnoreStatus(podNames);
@@ -187,7 +191,7 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public List<PodInfoDTO> getAllocatedInstanceBySubsystemAndDcn(@Param("subsystem") String subsystem, @Param("dcn") String dcn) throws SQLException {
+    public List<PodInfo> getAllocatedInstanceBySubsystemAndDcn(@Param("subsystem") String subsystem, @Param("dcn") String dcn) throws SQLException {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getAllocatedInstanceBySubsystemAndDcn(subsystem, dcn);
@@ -251,7 +255,7 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public List<PodInfoDTO> getPodListByItsmId(String itsmId) throws SQLException {
+    public List<PodInfo> getPodListByItsmId(String itsmId) throws SQLException {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getPodListByItsmId(itsmId);
@@ -259,7 +263,7 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public List<PodInfoDTO> getPodListByOfflineItsmId(String itsmId) throws SQLException {
+    public List<PodInfo> getPodListByOfflineItsmId(String itsmId) throws SQLException {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getPodListByOfflineItsmId(itsmId);
@@ -291,23 +295,23 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     }
 
     @Override
-    public List<PodInfoDTO> getPodInfo(PodInfoDTO podInfoDTO) throws SQLException {
+    public List<PodInfo> getPodInfo(PodInfo podInfo) throws SQLException {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
-            return mapper.getPodInfo(podInfoDTO);
+            return mapper.getPodInfo(podInfo);
         }
     }
 
     @Override
-    public List<PodInfoDTO> getByPage(PodInfoDTO podInfoDTO, PageInfo pageInfo) throws SQLException {
+    public List<PodInfo> getByPage(PodInfo podInfo, PageInfo pageInfo) throws SQLException {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
-            return mapper.getByPage(podInfoDTO, pageInfo);
+            return mapper.getByPage(podInfo, pageInfo);
         }
     }
 
     @Override
-    public List<PodInfoDTO> getByUpdateTime(Date dateFrom, Date dateTo) throws SQLException {
+    public List<PodInfo> getByUpdateTime(Date dateFrom, Date dateTo) throws SQLException {
         try (WbSqlSession session = getSession()) {
             PodInfoDAO mapper = session.getMapper(PodInfoDAO.class);
             return mapper.getByUpdateTime(dateFrom, dateTo);

@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -20,6 +24,11 @@ public class Constants {
     public static final String POD_OFFLINE = "OFFLINE";
     public static final int SUCCESS = 0;
     public static final int FAIL = -1;
+
+    public static final String ITSM_STATE_SUCCEED = "succeed";
+    public static final String ITSM_STATE_RECEIVED = "received";
+    public static final String ITSM_STATE_FAILED = "failed";
+    public static final String ITSM_STATE_DB_UPDATED = "db_updated";
 
     public static final String CMDB_INTERFACE_TYPE = "type";
     public static final String CMDB_INTERFACE_USERAUTHKEY = "userAuthKey";

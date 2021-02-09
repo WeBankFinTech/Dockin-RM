@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -105,8 +109,8 @@ public class DockinRMConfiguration extends WebMvcConfigurerAdapter {
             File file = File.createTempFile("temp-config", "properties");
             FileUtils.copyInputStreamToFile(is , file);
 
-//            PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
-//            File file = pmrpr.getResource(routeFile).getFile();
+
+
             ReloadRMConfiguration reloadConfiguration = new ReloadRMConfiguration(file, 60, TimeUnit.SECONDS,
                     RMConfig.class);
             return reloadConfiguration;

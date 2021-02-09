@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -14,6 +18,7 @@
 
 package cn.webank.dockin.rm.web.controller;
 
+import cn.webank.dockin.rm.bean.biz.AddInstanceDTO;
 import cn.webank.dockin.rm.bean.biz.ResultDto;
 import cn.webank.dockin.rm.common.Constants;
 import cn.webank.dockin.rm.service.RmService;
@@ -35,7 +40,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/rmController")
 public class RmController extends AuthBaseController {
-        public static final long EXEC_TIMEOUT = 5 * 60 * 1000;
+    public static final long EXEC_TIMEOUT = 5 * 60 * 1000;
     @Autowired
     private RmService rmService;
     @Autowired
@@ -104,6 +109,14 @@ public class RmController extends AuthBaseController {
     HttpServletResponse httpResponse, String hostIp) {
         return execute(httpRequest, httpResponse, null, EXEC_TIMEOUT, ((requestDto, bizErrors) -> rmService
                 .getPodInfoByHostIp(hostIp)), null, getDefaultExceptionResult(httpRequest.getRemoteAddr()));
+    }
+
+
+    @RequestMapping(value = "/addAppInstance", method = RequestMethod.POST)
+    public DeferredResult<ResultDto> addPodInstance(final HttpServletRequest httpRequest, final
+    HttpServletResponse httpResponse, @RequestBody AddInstanceDTO params) {
+        return execute(httpRequest, httpResponse, null, EXEC_TIMEOUT, ((requestDto, bizErrors) -> rmService
+                .addAppInstance(params)), null, getDefaultExceptionResult(httpRequest.getRemoteAddr()));
     }
 
     private ResultDto getDefaultExceptionResult(String requesterIp) {

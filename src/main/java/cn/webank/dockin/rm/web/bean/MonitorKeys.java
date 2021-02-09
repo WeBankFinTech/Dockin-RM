@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -16,16 +20,7 @@ package cn.webank.dockin.rm.web.bean;
 
 public class MonitorKeys {
 
-    /**
-     * s: Complete root of service method
-     * b: bizSeqNo
-     * t: Time elapse of service
-     * r: Return code, valued within 0(Success), 1(System error), 2(Business error)
-     * bizRetCode: Return code of business
-     * retErrMsg: Return message of error
-     * appId: Application id
-     * channel: Channel
-     */
+
 
     public static final String APP_MONITOR_LOGGER = "appMonitor";
 

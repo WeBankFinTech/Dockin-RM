@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -22,10 +26,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public enum ResponseStatus {
-    /* 一切正常 */
+
     SUCCESS("0", "请求成功"),
-    /* Internal Server Error */
-    /* Front Internal Server Error */
+
+
     FRONT_INTERNAL_SERVER_ERROR("999998", "系统异常，请您稍后再试"),
     REQUEST_UNSAFE("999997", "系统请求不安全"),
     RMB_REPLICATED_MESSAGE("-999999", "RMB replicated message");

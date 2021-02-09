@@ -1,5 +1,8 @@
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -13,16 +16,19 @@
  */
 
 package cn.webank.dockin.rm.service;
-import cn.webank.dockin.rm.database.dto.PodInfoDTO;
+
 import cn.webank.dockin.rm.bean.biz.ResultDto;
-import cn.webank.dockin.rm.bean.pod.PodInfo;
+import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
+import cn.webank.dockin.rm.database.dto.PodInfo;
 
 public interface PersistenceService {
 
-        ResultDto getPodInfoByPodName(String podName);
+    ResultDto getPodInfoByPodName(String podName);
 
-        ResultDto getPodInfoByPodIp(String podIp);
+    ResultDto getPodInfoByPodIp(String podIp);
 
-    PodInfo podDTO2DOConvertor(PodInfoDTO podInfoDTO) throws Exception;
+    PodInfoDTO podDTO2DOConvertor(PodInfo podInfo) throws Exception;
+    PodInfoDTO getPodInfo(String podIp) throws Exception;
+    int updateHostInfo(String hostIp) throws Exception;
 
 }

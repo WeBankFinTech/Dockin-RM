@@ -1,9 +1,20 @@
+/*
+ * Copyright (C) @2021 Webank Group Holding Limited
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package cn.webank.dockin.rm.utils;
 
-import cn.webank.wcs.rm.bean.itsm.AddInstanceTableContent;
-import cn.webank.wcs.rm.bean.itsm.AddInstanceTableContentList;
-import cn.webank.wcs.rm.bean.pod.PodInfo;
-import cn.webank.dockin.rm.database.dto.PodInfoDTO;
+import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,10 +54,10 @@ public class PodUtil {
     }
 
 
-    public static Set<String> extractPodNames(List<PodInfo> podInfos) {
+    public static Set<String> extractPodNames(List<PodInfoDTO> podInfoDTOS) {
         Set<String> set = new HashSet<>();
-        for (PodInfo podInfo : podInfos) {
-            set.add(podInfo.getPodName());
+        for (PodInfoDTO podInfoDTO : podInfoDTOS) {
+            set.add(podInfoDTO.getPodName());
         }
         return set;
     }
@@ -60,20 +71,10 @@ public class PodUtil {
         return set;
     }
 
-
-    public static Set<String> getPodIps(AddInstanceTableContentList addInstanceTableContentList) {
+    public static Set<String> getSubSystemNames(List<PodInfoDTO> podInfoDTOS) {
         Set<String> set = new HashSet<>();
-        for (AddInstanceTableContent addInstanceTableContent : addInstanceTableContentList.getDataList()) {
-            set.add(addInstanceTableContent.getPodIp());
-        }
-        return set;
-    }
-
-
-    public static Set<String> getSubSystemNames(List<PodInfo> podInfos) {
-        Set<String> set = new HashSet<>();
-        for (PodInfo podInfo : podInfos) {
-            set.add(podInfo.getPodName());
+        for (PodInfoDTO podInfoDTO : podInfoDTOS) {
+            set.add(podInfoDTO.getPodName());
         }
         return set;
     }

@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -13,40 +17,51 @@
  */
 
 package cn.webank.dockin.rm.utils;
-import cn.webank.dockin.rm.bean.pod.PodInfo;
-import cn.webank.dockin.rm.database.dto.PodInfoDTO;
+import cn.webank.dockin.rm.bean.biz.AllocateResult;
+import cn.webank.dockin.rm.bean.biz.ResultDto;
+import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
+import cn.webank.dockin.rm.database.dto.PodInfo;
 
 
 public class BeanParser {
 
-        public static PodInfo parsePodInfo(PodInfoDTO podInfoDTO, String clusterId) throws Exception {
-        PodInfo podInfo = new PodInfo();
-        podInfo.setPodName(podInfoDTO.getPodName());
-        podInfo.setSubSystem(podInfoDTO.getSubSystem());
-        podInfo.setSubSystemId(podInfoDTO.getSubSystemId());
-        podInfo.setDcn(podInfoDTO.getDcn());
-        podInfo.setPodIp(podInfoDTO.getPodIp());
-        podInfo.setGateway(podInfoDTO.getGateway());
-        podInfo.setSubnetMask(podInfoDTO.getSubnetMask());
-        podInfo.setHostIp(podInfoDTO.getHostIp());
-        podInfo.setCpu(String.valueOf(podInfoDTO.getCpu()));
-        podInfo.setMem(String.valueOf(podInfoDTO.getMem()));
-        podInfo.setDisk(String.valueOf(podInfoDTO.getDisk()));
-        podInfo.setItsmId(podInfoDTO.getItsmId());
-        podInfo.setPeople(podInfoDTO.getPeople());
-        podInfo.setType(podInfoDTO.getType());
-        podInfo.setPort(podInfoDTO.getPort());
-        podInfo.setJmxPort(podInfoDTO.getJmxPort());
-        podInfo.setPodSetId(podInfoDTO.getPodSetId());
-        podInfo.setNamespace(podInfoDTO.getNamespace());
+        public static PodInfoDTO parsePodInfo(PodInfo podInfo, String clusterId) throws Exception {
+        PodInfoDTO podInfoDTO = new PodInfoDTO();
+        podInfoDTO.setPodName(podInfo.getPodName());
+        podInfoDTO.setSubSystem(podInfo.getSubSystem());
+        podInfoDTO.setSubSystemId(podInfo.getSubSystemId());
+        podInfoDTO.setDcn(podInfo.getDcn());
+        podInfoDTO.setPodIp(podInfo.getPodIp());
+        podInfoDTO.setGateway(podInfo.getGateway());
+        podInfoDTO.setSubnetMask(podInfo.getSubnetMask());
+        podInfoDTO.setHostIp(podInfo.getHostIp());
+        podInfoDTO.setCpu(String.valueOf(podInfo.getCpu()));
+        podInfoDTO.setMem(String.valueOf(podInfo.getMem()));
+        podInfoDTO.setDisk(String.valueOf(podInfo.getDisk()));
+        podInfoDTO.setItsmId(podInfo.getItsmId());
+        podInfoDTO.setPeople(podInfo.getPeople());
+        podInfoDTO.setType(podInfo.getType());
+        podInfoDTO.setPort(podInfo.getPort());
+        podInfoDTO.setJmxPort(podInfo.getJmxPort());
+        podInfoDTO.setPodSetId(podInfo.getPodSetId());
+        podInfoDTO.setNamespace(podInfo.getNamespace());
 
-        podInfo.setStatus(podInfoDTO.getState());
-        podInfo.setTag(podInfoDTO.getTag());
-        podInfo.setUpdateItsmId(podInfoDTO.getUpdateItsmId());
+        podInfoDTO.setStatus(podInfo.getState());
+        podInfoDTO.setTag(podInfo.getTag());
+        podInfoDTO.setUpdateItsmId(podInfo.getUpdateItsmId());
         if (clusterId == null) {
             throw new Exception("cluster Id not found");
         }
-        podInfo.setClusterId(clusterId);
-        return podInfo;
+        podInfoDTO.setClusterId(clusterId);
+        return podInfoDTO;
     }
+
+        public static ResultDto parseResultDto(AllocateResult result) {
+                ResultDto resultDto = new ResultDto();
+                resultDto.setCode(result.getResult());
+                resultDto.setData(result.getInstances());
+                resultDto.setMessage(result.getMessage());
+
+                return resultDto;
+        }
 }

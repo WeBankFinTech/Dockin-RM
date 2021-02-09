@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -13,10 +17,10 @@
  */
 
 package cn.webank.dockin.rm.service.impl;
+import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
 import cn.webank.dockin.rm.database.dao.PodInfoDAO;
-import cn.webank.dockin.rm.database.dto.PodInfoDTO;
+import cn.webank.dockin.rm.database.dto.PodInfo;
 import cn.webank.dockin.rm.bean.biz.ResultDto;
-import cn.webank.dockin.rm.bean.pod.PodInfo;
 import cn.webank.dockin.rm.common.Constants;
 import cn.webank.dockin.rm.service.HostService;
 import cn.webank.dockin.rm.service.PodInfoService;
@@ -49,14 +53,14 @@ public class PodInfoServiceImpl implements PodInfoService {
     HostService hostService;
 
     @Override
-    public List<PodInfo> getPodInfoByPodSetId(String podSetId) throws Exception {
+    public List<PodInfoDTO> getPodInfoByPodSetId(String podSetId) throws Exception {
         podSetId = podSetService.parsePodSetId(podSetId);
-        PodInfoDTO podInfoDTO = new PodInfoDTO();
-        podInfoDTO.setPodSetId(podSetId);
-        List<PodInfoDTO> queryPodList = podInfoDAO.getPodInfo(podInfoDTO);
+        PodInfo podInfo = new PodInfo();
+        podInfo.setPodSetId(podSetId);
+        List<PodInfo> queryPodList = podInfoDAO.getPodInfo(podInfo);
 
-        List<PodInfo> result = new ArrayList<>();
-        for (PodInfoDTO p : queryPodList) {
+        List<PodInfoDTO> result = new ArrayList<>();
+        for (PodInfo p : queryPodList) {
             result.add(BeanParser.parsePodInfo(p, hostService.getClusterId(p.getHostIp())));
 
         }
@@ -69,7 +73,7 @@ public class PodInfoServiceImpl implements PodInfoService {
     public ResultDto getPodInfosByPodNameList(List<String> podNames, boolean ignoreStatus) {
         ResultDto resultDto = new ResultDto();
         try {
-            List<PodInfoDTO> podInfoDTOList = null;
+            List<PodInfo> podInfoDTOList = null;
             if (ignoreStatus) {
                 podInfoDTOList = podInfoDAO.getPodInfosByPodNameListIgnoreStatus(podNames);
             } else {
@@ -80,13 +84,13 @@ public class PodInfoServiceImpl implements PodInfoService {
                 return resultDto;
             }
 
-            List<PodInfo> podInfoForOperators = new ArrayList<>();
+            List<PodInfoDTO> podInfoDTOForOperators = new ArrayList<>();
 
-            for (PodInfoDTO podInfoDTO : podInfoDTOList) {
-                podInfoForOperators.add(BeanParser.parsePodInfo(podInfoDTO, hostService.getClusterId(podInfoDTO.getHostIp())));
+            for (PodInfo podInfo : podInfoDTOList) {
+                podInfoDTOForOperators.add(BeanParser.parsePodInfo(podInfo, hostService.getClusterId(podInfo.getHostIp())));
             }
 
-            resultDto.setData(podInfoForOperators);
+            resultDto.setData(podInfoDTOForOperators);
             resultDto.setCode(Constants.SUCCESS);
         } catch (Exception e) {
             logger.warn("exception occur while get pod info by pod name", e);

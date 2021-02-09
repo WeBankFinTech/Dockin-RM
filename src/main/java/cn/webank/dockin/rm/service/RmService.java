@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -13,6 +17,8 @@
  */
 
 package cn.webank.dockin.rm.service;
+
+import cn.webank.dockin.rm.bean.biz.AddInstanceDTO;
 import cn.webank.dockin.rm.bean.biz.ResultDto;
 
 import java.util.List;
@@ -34,4 +40,6 @@ public interface RmService {
     ResultDto getPodInfo(String subsystem, String dcn);
 
     ResultDto getPodInfoByHostIp(String hostIp);
+
+    ResultDto addAppInstance(AddInstanceDTO addInstanceDTO);
 }

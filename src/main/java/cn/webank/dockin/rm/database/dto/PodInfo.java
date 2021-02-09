@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -17,7 +21,7 @@ package cn.webank.dockin.rm.database.dto;
 import cn.webank.dockin.rm.web.bean.BaseDTO;
 
 
-public class PodInfoDTO extends BaseDTO implements Cloneable {
+public class PodInfo extends BaseDTO implements Cloneable {
     private String podName;
     private String podSetId;
     private String subSystem;
@@ -46,12 +50,12 @@ public class PodInfoDTO extends BaseDTO implements Cloneable {
     private Integer expiryType;
     private String state;
 
-    public PodInfoDTO() {
+    public PodInfo() {
     }
 
-    public PodInfoDTO(String podName, String podSetId, String subSystem, String subSystemId, String dcn, String podIp, String gateway, String subnetMask,
-                      String hostIp, double cpu, double mem, double cpuRequest, double memRequest, Integer disk, String itsmId, String people, String type, Integer port,
-                      Integer jmxPort, String tag, String namespace, Integer expiryType, String clusterId, String state) {
+    public PodInfo(String podName, String podSetId, String subSystem, String subSystemId, String dcn, String podIp, String gateway, String subnetMask,
+                   String hostIp, double cpu, double mem, double cpuRequest, double memRequest, Integer disk, String itsmId, String people, String type, Integer port,
+                   Integer jmxPort, String tag, String namespace, Integer expiryType, String clusterId, String state) {
         this.podName = podName;
         this.podSetId = podSetId;
         this.subSystem = subSystem;
@@ -287,8 +291,8 @@ public class PodInfoDTO extends BaseDTO implements Cloneable {
     }
 
     @Override
-    public PodInfoDTO clone() throws CloneNotSupportedException {
-        return (PodInfoDTO) super.clone();
+    public PodInfo clone() throws CloneNotSupportedException {
+        return (PodInfo) super.clone();
     }
 
 }

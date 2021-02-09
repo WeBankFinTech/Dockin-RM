@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -14,12 +18,14 @@
 
 package cn.webank.dockin.rm.service.impl;
 
+import cn.webank.dockin.rm.bean.biz.AddInstanceDTO;
 import cn.webank.dockin.rm.bean.biz.ResultDto;
 import cn.webank.dockin.rm.bean.cluster.ClusterInfo;
-import cn.webank.dockin.rm.bean.pod.PodInfo;
+import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
 import cn.webank.dockin.rm.common.Constants;
-import cn.webank.dockin.rm.database.dao.*;
-import cn.webank.dockin.rm.database.dto.PodInfoDTO;
+import cn.webank.dockin.rm.database.dao.HostInfoDAO;
+import cn.webank.dockin.rm.database.dao.PodInfoDAO;
+import cn.webank.dockin.rm.database.dto.PodInfo;
 import cn.webank.dockin.rm.service.*;
 import org.assertj.core.util.Lists;
 import org.slf4j.Logger;
@@ -29,6 +35,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -45,6 +52,9 @@ public class RmServiceImpl implements RmService {
     PodInfoService podInfoService;
     @Autowired
     NetworkService networkService;
+    @Autowired
+    ContainerManagerService containerManagerService;
+
     ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1, new ThreadFactory() {
         AtomicInteger i = new AtomicInteger();
 
@@ -76,14 +86,14 @@ public class RmServiceImpl implements RmService {
             return result;
         }
         try {
-            List<PodInfoDTO> podInfoDTOList = podInfoDAO.getPodListByHostIp(hostIp);
-            List<PodInfo> podInfoForOperators = Lists.newArrayList();
+            List<PodInfo> podInfoDTOList = podInfoDAO.getPodListByHostIp(hostIp);
+            List<PodInfoDTO> podInfoDTOForOperators = Lists.newArrayList();
             if (podInfoDTOList != null && podInfoDTOList.size() != 0) {
-                for (PodInfoDTO podInfoDTO : podInfoDTOList) {
-                    podInfoForOperators.add(persistenceService.podDTO2DOConvertor(podInfoDTO));
+                for (PodInfo podInfo : podInfoDTOList) {
+                    podInfoDTOForOperators.add(persistenceService.podDTO2DOConvertor(podInfo));
                 }
             }
-            result.setData(podInfoForOperators);
+            result.setData(podInfoDTOForOperators);
             result.setCode(Constants.SUCCESS);
         } catch (Exception e) {
             logger.warn("exception occur while getting pod info", e);
@@ -91,6 +101,17 @@ public class RmServiceImpl implements RmService {
             return result;
         }
         return result;
+    }
+
+    @Override
+    public ResultDto addAppInstance(AddInstanceDTO addInstanceDTO) {
+        ResultDto resultDto = null;
+        try {
+            resultDto = containerManagerService.addContainerCrossDcn(Collections.singletonList(addInstanceDTO));
+        }catch (Exception e){
+            resultDto = ResultDto.newDefaultFailedResult(e.getMessage());
+        }
+        return resultDto;
     }
 
     @Override
@@ -146,7 +167,7 @@ public class RmServiceImpl implements RmService {
         return resultDto;
     }
 
-    
+
     @Override
     public ResultDto getPodInfoByPodIp(String podIp) {
         ResultDto result = new ResultDto();
@@ -161,7 +182,7 @@ public class RmServiceImpl implements RmService {
         return result;
     }
 
-    
+
     @Override
     public ResultDto getPodInfo(String subsystem, String dcn) {
         ResultDto resultDto = new ResultDto();
@@ -177,16 +198,16 @@ public class RmServiceImpl implements RmService {
         }
     }
 
-    
+
     public String printPodInfo(String subsystem, String dcn) {
         String newLine = System.getProperty("line.separator");
         String result = newLine;
         try {
-            List<PodInfo> podInfoList = getPodInfoBySubsystemAndDcn(subsystem, dcn);
-            if (podInfoList == null) {
+            List<PodInfoDTO> podInfoDTOList = getPodInfoBySubsystemAndDcn(subsystem, dcn);
+            if (podInfoDTOList == null) {
                 return result;
             }
-            for (PodInfo podInfoDTO : podInfoList) {
+            for (PodInfoDTO podInfoDTO : podInfoDTOList) {
                 result += podInfoDTO + newLine;
             }
         } catch (Exception e) {
@@ -197,27 +218,26 @@ public class RmServiceImpl implements RmService {
     }
 
 
-    
-    private List<PodInfo> getPodInfoBySubsystemAndDcn(String subsystem, String dcn) throws Exception {
+    private List<PodInfoDTO> getPodInfoBySubsystemAndDcn(String subsystem, String dcn) throws Exception {
         if (StringUtils.isEmpty(subsystem)) {
             throw new Exception("subsystem can not be empty");
         }
 
-        List<PodInfo> podInfoForOperators = Lists.newArrayList();
-        List<PodInfoDTO> podInfoList = Lists.newArrayList();
-        List<PodInfoDTO> result = podInfoDAO.getPodInfoBySubsystem(subsystem);
-        for (PodInfoDTO podInfoDTO : result) {
-            if (dcn != null && !podInfoDTO.getDcn().equals(dcn)) {
+        List<PodInfoDTO> podInfoDTOForOperators = Lists.newArrayList();
+        List<PodInfo> podInfoList = Lists.newArrayList();
+        List<PodInfo> result = podInfoDAO.getPodInfoBySubsystem(subsystem);
+        for (PodInfo podInfo : result) {
+            if (dcn != null && !podInfo.getDcn().equals(dcn)) {
                 continue;
             }
-            podInfoList.add(podInfoDTO);
+            podInfoList.add(podInfo);
         }
 
-        for (PodInfoDTO podInfoDTO : podInfoList) {
-            podInfoForOperators.add(persistenceService.podDTO2DOConvertor(podInfoDTO));
+        for (PodInfo podInfo : podInfoList) {
+            podInfoDTOForOperators.add(persistenceService.podDTO2DOConvertor(podInfo));
         }
 
-        return podInfoForOperators;
+        return podInfoDTOForOperators;
     }
 
     @Override

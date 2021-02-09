@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -17,7 +21,7 @@ package cn.webank.dockin.rm.bean.pod;
 
 import cn.webank.dockin.rm.web.bean.BaseDTO;
 
-public class PodInfo extends BaseDTO {
+public class PodInfoDTO extends BaseDTO {
     private String podName;
     private String podSetId;
     private String subSystem;
@@ -42,10 +46,10 @@ public class PodInfo extends BaseDTO {
     private String status;
     private String clusterId;
 
-    public PodInfo() {
+    public PodInfoDTO() {
     }
 
-    public PodInfo(String podName, String podSetId, String subSystem, String subSystemId, String dcn, String podIp, String gateway, String
+    public PodInfoDTO(String podName, String podSetId, String subSystem, String subSystemId, String dcn, String podIp, String gateway, String
             subnetMask, String hostIp, String cpu, String mem, String disk, String itsmId, String people, String
                            type, Integer port, Integer jmxPort, String namespace, String status, String
                            clusterId) {

@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -158,8 +162,8 @@ public class DatabaseConfiguration {
             ds.setConnectionInitSqls(Arrays.asList("set names utf8mb4"));
 
             if (!jdbcUsePingMethod) {
-                //强制使用test sql 为保活方法，而不是ping。
-                //由于我们手动装载druid，所以这个配置不能通过配置文件来内部配置,只能重新装载checker
+
+
                 MySqlValidConnectionChecker checker = new MySqlValidConnectionChecker();
                 checker.setUsePingMethod(false);
                 ds.setValidConnectionChecker(checker);

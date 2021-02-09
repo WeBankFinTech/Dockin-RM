@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -13,11 +17,11 @@
  */
 
 package cn.webank.dockin.rm.service.impl;
+import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
 import cn.webank.dockin.rm.database.dao.HostInfoDAO;
 import cn.webank.dockin.rm.database.dao.PodInfoDAO;
-import cn.webank.dockin.rm.database.dto.PodInfoDTO;
+import cn.webank.dockin.rm.database.dto.PodInfo;
 import cn.webank.dockin.rm.bean.biz.ResultDto;
-import cn.webank.dockin.rm.bean.pod.PodInfo;
 import cn.webank.dockin.rm.common.Constants;
 import cn.webank.dockin.rm.service.PersistenceService;
 import cn.webank.dockin.rm.utils.BeanParser;
@@ -46,13 +50,13 @@ public class PersistenceServiceImpl implements PersistenceService {
         ResultDto resultDto = new ResultDto();
         resultDto.setCode(FAIL);
         try {
-            PodInfoDTO podInfoDTO = podInfoDAO.getPodInfoByPodName(podName);
-            if (podInfoDTO == null || Constants.POD_OFFLINE.equals(podInfoDTO.getState())) {
+            PodInfo podInfo = podInfoDAO.getPodInfoByPodName(podName);
+            if (podInfo == null || Constants.POD_OFFLINE.equals(podInfo.getState())) {
                 resultDto.setMessage(String.format("pod info not found for pod name: %s", podName));
                 return resultDto;
             }
 
-            resultDto.setData(podDTO2DOConvertor(podInfoDTO));
+            resultDto.setData(podDTO2DOConvertor(podInfo));
             resultDto.setCode(Constants.SUCCESS);
         } catch (Exception e) {
             logger.warn("exception occur while get pod info by pod name", e);
@@ -67,19 +71,19 @@ public class PersistenceServiceImpl implements PersistenceService {
     public ResultDto getPodInfoByPodIp(String podIp) {
         ResultDto resultDto = new ResultDto();
         try {
-            PodInfoDTO podInfoDTO = podInfoDAO.getPodInfoByPodIp(podIp);
-            if (podInfoDTO == null) {
+            PodInfo podInfo = podInfoDAO.getPodInfoByPodIp(podIp);
+            if (podInfo == null) {
                 resultDto.setMessage(String.format("pod info not found for pod ip: %s", podIp));
                 return resultDto;
             }
 
-            if (Constants.POD_OFFLINE.equals(podInfoDTO.getState())) {
+            if (Constants.POD_OFFLINE.equals(podInfo.getState())) {
                 resultDto.setMessage(String.format("pod state is offline, pod ip: %s", podIp));
                 resultDto.setCode(FAIL);
                 return resultDto;
             }
 
-            resultDto.setData(podDTO2DOConvertor(podInfoDTO));
+            resultDto.setData(podDTO2DOConvertor(podInfo));
             resultDto.setCode(Constants.SUCCESS);
         } catch (Exception e) {
             logger.warn("exception occur while get pod info by pod ip", e);
@@ -90,8 +94,8 @@ public class PersistenceServiceImpl implements PersistenceService {
 
     
     @Override
-    public PodInfo podDTO2DOConvertor(PodInfoDTO podInfoDTO) throws Exception {
-        return BeanParser.parsePodInfo(podInfoDTO, getClusterId(podInfoDTO.getHostIp()));
+    public PodInfoDTO podDTO2DOConvertor(PodInfo podInfo) throws Exception {
+        return BeanParser.parsePodInfo(podInfo, getClusterId(podInfo.getHostIp()));
     }
 
     

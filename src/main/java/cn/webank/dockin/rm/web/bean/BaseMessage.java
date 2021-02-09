@@ -1,5 +1,9 @@
+
+
+
+
 /*
- * Copyright (C) @2020 Webank Group Holding Limited
+ * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -16,7 +20,7 @@ package cn.webank.dockin.rm.web.bean;
 
 public class BaseMessage extends BaseDTO {
 
-    private String code = ResponseStatus.SUCCESS.getCode();// 默认成功
+    private String code = ResponseStatus.SUCCESS.getCode();
 
     private String msg = "请求成功";
         private String bizSeqNo;
