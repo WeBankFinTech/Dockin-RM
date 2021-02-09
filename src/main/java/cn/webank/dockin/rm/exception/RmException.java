@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,18 +11,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.exception;
-
-
 public class RmException extends Exception {
-
     private static final long serialVersionUID = -3868985190865952393L;
-
     public RmException(String message) {
         super(message);
     }
-
     public RmException(String message, Throwable cause) {
         super(message, cause);
     }

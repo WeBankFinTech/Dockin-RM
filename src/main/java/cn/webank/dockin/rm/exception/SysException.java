@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,23 +11,14 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.exception;
-
 import org.springframework.core.NestedRuntimeException;
-
 public class SysException extends NestedRuntimeException {
-
     private static final long serialVersionUID = -3868985190865952392L;
-
-    
     public SysException(String msg) {
         super(msg);
     }
-
-    
     public SysException(String msg, Throwable ex) {
         super(msg, ex);
     }
-
 }

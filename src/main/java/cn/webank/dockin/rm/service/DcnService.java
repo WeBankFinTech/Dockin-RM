@@ -11,12 +11,15 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package cn.webank.dockin.rm.database.dao;
-import cn.webank.dockin.rm.database.dto.PodNetwork;
-import org.springframework.stereotype.Repository;
+package cn.webank.dockin.rm.service;
+import cn.webank.dockin.rm.bean.PageInfo;
+import cn.webank.dockin.rm.bean.biz.ResultDto;
+import cn.webank.dockin.rm.database.dto.Dcn;
 import java.util.List;
-@Repository
-public interface PodNetworkDAO {
-    List<PodNetwork> getByPodName(String podName) throws Exception;
-    int insert(PodNetwork podNetwork) throws Exception;
+public interface DcnService {
+    ResultDto syncDcn();
+    ResultDto syncLogicArea();
+    Dcn getByDcn(String dcn);
+    String getIdc(String dcn);
+    List<Dcn> getByPage(Dcn dcn, PageInfo pageInfo) throws Exception;
 }

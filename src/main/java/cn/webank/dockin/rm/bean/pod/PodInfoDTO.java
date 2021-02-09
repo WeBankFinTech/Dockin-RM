@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,12 +11,8 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.bean.pod;
-
-
 import cn.webank.dockin.rm.web.bean.BaseDTO;
-
 public class PodInfoDTO extends BaseDTO {
     private String podName;
     private String podSetId;
@@ -45,10 +37,8 @@ public class PodInfoDTO extends BaseDTO {
     private String namespace;
     private String status;
     private String clusterId;
-
     public PodInfoDTO() {
     }
-
     public PodInfoDTO(String podName, String podSetId, String subSystem, String subSystemId, String dcn, String podIp, String gateway, String
             subnetMask, String hostIp, String cpu, String mem, String disk, String itsmId, String people, String
                            type, Integer port, Integer jmxPort, String namespace, String status, String
@@ -74,191 +64,144 @@ public class PodInfoDTO extends BaseDTO {
         this.status = status;
         this.clusterId = clusterId;
     }
-
     public String getSubSystemId() {
         return subSystemId;
     }
-
     public void setSubSystemId(String subSystemId) {
         this.subSystemId = subSystemId;
     }
-
     public String getPodName() {
         return podName;
     }
-
     public void setPodName(String podName) {
         this.podName = podName;
     }
-
     public String getSubSystem() {
         return subSystem == null ? null : subSystem.toLowerCase().trim();
     }
-
     public void setSubSystem(String subSystem) {
         this.subSystem = subSystem;
     }
-
     public String getDcn() {
         return dcn == null ? null : dcn.toUpperCase();
     }
-
     public void setDcn(String dcn) {
         this.dcn = dcn;
     }
-
     public String getPodIp() {
         return podIp;
     }
-
     public void setPodIp(String podIp) {
         this.podIp = podIp;
     }
-
     public String getGateway() {
         return gateway;
     }
-
     public void setGateway(String gateway) {
         this.gateway = gateway;
     }
-
     public String getSubnetMask() {
         return subnetMask;
     }
-
     public void setSubnetMask(String subnetMask) {
         this.subnetMask = subnetMask;
     }
-
     public String getHostIp() {
         return hostIp;
     }
-
     public void setHostIp(String hostIp) {
         this.hostIp = hostIp;
     }
-
     public String getCpu() {
         return cpu;
     }
-
     public void setCpu(String cpu) {
         this.cpu = cpu;
     }
-
     public String getMem() {
         return mem;
     }
-
     public void setMem(String mem) {
         this.mem = mem;
     }
-
     public String getDisk() {
         return disk;
     }
-
     public void setDisk(String disk) {
         this.disk = disk;
     }
-
     public String getItsmId() {
         return itsmId;
     }
-
     public void setItsmId(String itsmId) {
         this.itsmId = itsmId;
     }
-
     public String getOfflineItsmId() {
         return offlineItsmId;
     }
-
     public void setOfflineItsmId(String offlineItsmId) {
         this.offlineItsmId = offlineItsmId;
     }
-
     public String getPeople() {
         return people;
     }
-
     public void setPeople(String people) {
         this.people = people;
     }
-
     public String getType() {
         return type;
     }
-
     public void setType(String type) {
         this.type = type;
     }
-
     public Integer getPort() {
         return port;
     }
-
     public void setPort(Integer port) {
         this.port = port;
     }
-
     public Integer getJmxPort() {
         return jmxPort;
     }
-
     public void setJmxPort(Integer jmxPort) {
         this.jmxPort = jmxPort;
     }
-
     public String getNamespace() {
         return namespace == null ? null : namespace.toUpperCase();
     }
-
     public void setNamespace(String namespace) {
         this.namespace = namespace;
     }
-
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status;
     }
-
     public String getClusterId() {
         return clusterId;
     }
-
     public void setClusterId(String clusterId) {
         this.clusterId = clusterId;
     }
-
     public String getUpdateItsmId() {
         return updateItsmId;
     }
-
     public void setUpdateItsmId(String updateItsmId) {
         this.updateItsmId = updateItsmId;
     }
-
     public String getTag() {
         return tag;
     }
-
     public void setTag(String tag) {
         this.tag = tag;
     }
-
     public String getPodSetId() {
         return podSetId;
     }
-
     public void setPodSetId(String podSetId) {
         this.podSetId = podSetId;
     }
-
     @Override
     public String toString() {
         return "PodInfo{" +

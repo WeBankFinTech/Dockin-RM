@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,22 +11,15 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.autoconfigure;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.util.concurrent.TimeUnit;
-
-
 public abstract class ReloadConfiguration<T> {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private T content;
     private ConfiguratonFileWatcher watcher;
-
     public ReloadConfiguration(File file, long cacheInterval, TimeUnit unit, Class cl) {
         content = loadConfiguration(file, cl);
         ConfiguratonFileWatcher fileWatcher = new ReloadConfiguration.ConfiguratonFileWatcher(file, cacheInterval, unit, cl);
@@ -38,17 +27,14 @@ public abstract class ReloadConfiguration<T> {
         fileWatcher.start();
         watcher = fileWatcher;
     }
-
     public void stopWatchConfiguration() {
         if (watcher != null) {
             watcher.setStop(true);
         }
     }
-
     public ConfiguratonFileWatcher getWatcher() {
         return watcher;
     }
-
     private class ConfiguratonFileWatcher extends Thread {
         private TimeUnit unit;
         private long cacheInterval;
@@ -57,7 +43,6 @@ public abstract class ReloadConfiguration<T> {
         private boolean stop = false;
         private long lastModifiedTime;
         private Class cl;
-
         public ConfiguratonFileWatcher(File file, long cacheInterval, TimeUnit unit, Class cl) {
             this.configFile = file;
             this.cacheInterval = cacheInterval;
@@ -67,10 +52,8 @@ public abstract class ReloadConfiguration<T> {
                     System.currentTimeMillis() - this.unit.toMillis(this.cacheInterval) - 100;
             this.lastModifiedTime = -1;
         }
-
         public void run() {
             while (!stop) {
-
                 if ((System.currentTimeMillis() - lastCheckTime >= this.unit
                         .toMillis(this.cacheInterval)) && configFile.exists()) {
                     long currentModifiedTime = this.configFile.lastModified();
@@ -84,7 +67,6 @@ public abstract class ReloadConfiguration<T> {
                         this.lastModifiedTime = currentModifiedTime;
                     }
                 }
-
                 this.lastCheckTime = System.currentTimeMillis();
                 try {
                     Thread.sleep(unit.toMillis(cacheInterval));
@@ -93,56 +75,42 @@ public abstract class ReloadConfiguration<T> {
                 }
             }
         }
-
         public void setLastModifiedTime(long modifiedTime) {
             this.lastModifiedTime = modifiedTime;
         }
-
         public long getLastModifiedTime() {
             return lastModifiedTime;
         }
-
         public TimeUnit getUnit() {
             return unit;
         }
-
         public long getCacheInterval() {
             return cacheInterval;
         }
-
         public File getConfigFile() {
             return configFile;
         }
-
         public long getLastCheckTime() {
             return lastCheckTime;
         }
-
         public boolean isStop() {
             return stop;
         }
-
         public Class getCl() {
             return cl;
         }
-
         public void setStop(boolean stop) {
             this.stop = stop;
         }
     }
-
     public abstract T loadConfiguration(File file, Class cl);
-
     synchronized public void setContent(T content) {
         this.content = content;
     }
-
     public T getContent() {
         return content;
     }
-
     public File getFile() {
         return watcher.configFile;
     }
-
 }

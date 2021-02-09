@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,16 +11,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.utils;
 import cn.webank.dockin.rm.bean.biz.AllocateResult;
 import cn.webank.dockin.rm.bean.biz.ResultDto;
 import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
 import cn.webank.dockin.rm.database.dto.PodInfo;
-
-
 public class BeanParser {
-
         public static PodInfoDTO parsePodInfo(PodInfo podInfo, String clusterId) throws Exception {
         PodInfoDTO podInfoDTO = new PodInfoDTO();
         podInfoDTO.setPodName(podInfo.getPodName());
@@ -45,7 +37,6 @@ public class BeanParser {
         podInfoDTO.setJmxPort(podInfo.getJmxPort());
         podInfoDTO.setPodSetId(podInfo.getPodSetId());
         podInfoDTO.setNamespace(podInfo.getNamespace());
-
         podInfoDTO.setStatus(podInfo.getState());
         podInfoDTO.setTag(podInfo.getTag());
         podInfoDTO.setUpdateItsmId(podInfo.getUpdateItsmId());
@@ -55,13 +46,11 @@ public class BeanParser {
         podInfoDTO.setClusterId(clusterId);
         return podInfoDTO;
     }
-
         public static ResultDto parseResultDto(AllocateResult result) {
                 ResultDto resultDto = new ResultDto();
                 resultDto.setCode(result.getResult());
                 resultDto.setData(result.getInstances());
                 resultDto.setMessage(result.getMessage());
-
                 return resultDto;
         }
 }

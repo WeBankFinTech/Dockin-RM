@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,39 +11,29 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.bean.biz;
-
-
 public class PodNetworkInfoRsp {
     private String podIp;
     private String subnetMask;
     private String gateway;
-
     public String getPodIp() {
         return podIp;
     }
-
     public void setPodIp(String podIp) {
         this.podIp = podIp;
     }
-
     public String getSubnetMask() {
         return subnetMask;
     }
-
     public void setSubnetMask(String subnetMask) {
         this.subnetMask = subnetMask;
     }
-
     public String getGateway() {
         return gateway;
     }
-
     public void setGateway(String gateway) {
         this.gateway = gateway;
     }
-
     @Override
     public String toString() {
         return "PodNetworkInfoRsp{" +

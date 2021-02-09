@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,15 +11,9 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.web.controller;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-
 public class AuthBaseController extends BaseController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
 }

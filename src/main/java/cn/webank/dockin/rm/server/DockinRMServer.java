@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,19 +11,13 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.server;
-
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 import java.io.File;
-
-
 @EnableTransactionManagement
 @SpringBootApplication
 @EnableScheduling
@@ -41,46 +31,23 @@ public class DockinRMServer {
             System.exit(1);
         }
     }
-
     public void service(Class<?> serverClass, String[] args) throws Exception {
         String command = "start";
         ServerCommandEnum aCommand = ServerCommandEnum.getServerCommandEnum(command);
         if (aCommand.equals(ServerCommandEnum.START)) {
             startServer(serverClass, args);
-
         }
     }
-
     private void resetStartedSuccessTip() {
         File openedTipFile = new File("./start_success");
         if (openedTipFile.exists()) {
             openedTipFile.delete();
         }
     }
-
     private void startServer(Class<?> serverClass, String[] args) throws Exception {
         resetStartedSuccessTip();
         SpringApplication springApplication = new SpringApplication(serverClass);
         springApplication.setWebEnvironment(true);
-
         springApplication.run(args);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

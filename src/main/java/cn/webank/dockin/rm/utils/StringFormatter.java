@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,17 +11,13 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.utils;
 import cn.webank.dockin.rm.exception.SysException;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-
 import java.text.NumberFormat;
 import java.text.ParseException;
-
 public class StringFormatter {
-
     public static double parseNumberFromPercentage(String percentage) {
         NumberFormat nf = NumberFormat.getPercentInstance();
         try {

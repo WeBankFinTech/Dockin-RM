@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,28 +11,20 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.database.dao;
-
 import cn.webank.dockin.rm.database.WbSqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
 public abstract class AbstractDAO {
-
     @Autowired
     @Qualifier("sqlSessionFactory")
     protected SqlSessionFactory sqlSessionFactory;
-
     public SqlSessionFactory getSqlSessionFactory() {
         return sqlSessionFactory;
     }
-
     public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
         this.sqlSessionFactory = sqlSessionFactory;
     }
-
     protected abstract WbSqlSession getSession();
-
 }

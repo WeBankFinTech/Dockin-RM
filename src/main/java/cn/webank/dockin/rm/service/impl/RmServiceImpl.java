@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,9 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.service.impl;
-
 import cn.webank.dockin.rm.bean.biz.AddInstanceDTO;
 import cn.webank.dockin.rm.bean.biz.ResultDto;
 import cn.webank.dockin.rm.bean.cluster.ClusterInfo;
@@ -34,17 +28,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import static cn.webank.dockin.rm.common.Constants.FAIL;
-
-
 @Service
 public class RmServiceImpl implements RmService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -54,10 +44,8 @@ public class RmServiceImpl implements RmService {
     NetworkService networkService;
     @Autowired
     ContainerManagerService containerManagerService;
-
     ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1, new ThreadFactory() {
         AtomicInteger i = new AtomicInteger();
-
         @Override
         public Thread newThread(Runnable r) {
             Thread t = new Thread(r, "RmService-Thread-" + i.incrementAndGet());
@@ -75,12 +63,10 @@ public class RmServiceImpl implements RmService {
     private PersistenceService persistenceService;
     @Autowired
     HostInfoDAO hostInfoDAO;
-
     @Override
     public ResultDto getPodInfoByHostIp(String hostIp) {
         ResultDto result = new ResultDto();
         logger.info("get pod info request is: hostIp={}", hostIp);
-
         if (StringUtils.isEmpty(hostIp)) {
             result.setMessage("illegal parameter, host ip is empty");
             return result;
@@ -102,7 +88,6 @@ public class RmServiceImpl implements RmService {
         }
         return result;
     }
-
     @Override
     public ResultDto addAppInstance(AddInstanceDTO addInstanceDTO) {
         ResultDto resultDto = null;
@@ -113,12 +98,10 @@ public class RmServiceImpl implements RmService {
         }
         return resultDto;
     }
-
     @Override
     public ResultDto getPodInfoByPodName(String podName) {
         ResultDto result = new ResultDto();
         logger.info("getPodInfoByPodName request is: podName={}", podName);
-
         if (StringUtils.isEmpty(podName)) {
             result.setMessage("illegal parameter, pod name is empty");
             return result;
@@ -127,28 +110,22 @@ public class RmServiceImpl implements RmService {
         logger.info("getPodInfo {} info is {}", podName, result);
         return result;
     }
-
     @Override
     public ResultDto getClusterId(String hostIp, String podIp, String timestamp) {
         ResultDto resultDto = new ResultDto();
         logger.info("get cluster id request is: hostIp={}, podIp={}, timestamp={}", hostIp, podIp, timestamp);
-
         if (hostIp == null && podIp == null) {
             resultDto.setMessage("illegal parameter, please input hostIp or podIp");
             return resultDto;
         }
-
         try {
-
             return getClusterId(hostIp, podIp, resultDto);
-
         } catch (Exception e) {
             logger.warn("exception occur while getting cluster info, timestamnp={}", timestamp, e);
             resultDto.setMessage(e.getMessage());
             return resultDto;
         }
     }
-
     private ResultDto getClusterId(String hostIp, String podIp, ResultDto resultDto) throws Exception {
         ClusterInfo clusterInfo = new ClusterInfo();
         if (hostIp == null) {
@@ -166,13 +143,10 @@ public class RmServiceImpl implements RmService {
         resultDto.setData(clusterInfo);
         return resultDto;
     }
-
-
     @Override
     public ResultDto getPodInfoByPodIp(String podIp) {
         ResultDto result = new ResultDto();
         logger.info("get pod info request is: podIp={}", podIp);
-
         if (StringUtils.isEmpty(podIp)) {
             result.setMessage("illegal parameter, pod name is empty");
             return result;
@@ -181,8 +155,6 @@ public class RmServiceImpl implements RmService {
         logger.info("getPodInfo {} info is {}", podIp, result);
         return result;
     }
-
-
     @Override
     public ResultDto getPodInfo(String subsystem, String dcn) {
         ResultDto resultDto = new ResultDto();
@@ -197,8 +169,6 @@ public class RmServiceImpl implements RmService {
             return resultDto;
         }
     }
-
-
     public String printPodInfo(String subsystem, String dcn) {
         String newLine = System.getProperty("line.separator");
         String result = newLine;
@@ -216,13 +186,10 @@ public class RmServiceImpl implements RmService {
         }
         return result;
     }
-
-
     private List<PodInfoDTO> getPodInfoBySubsystemAndDcn(String subsystem, String dcn) throws Exception {
         if (StringUtils.isEmpty(subsystem)) {
             throw new Exception("subsystem can not be empty");
         }
-
         List<PodInfoDTO> podInfoDTOForOperators = Lists.newArrayList();
         List<PodInfo> podInfoList = Lists.newArrayList();
         List<PodInfo> result = podInfoDAO.getPodInfoBySubsystem(subsystem);
@@ -232,19 +199,15 @@ public class RmServiceImpl implements RmService {
             }
             podInfoList.add(podInfo);
         }
-
         for (PodInfo podInfo : podInfoList) {
             podInfoDTOForOperators.add(persistenceService.podDTO2DOConvertor(podInfo));
         }
-
         return podInfoDTOForOperators;
     }
-
     @Override
     public ResultDto getPodNetworkInfo(String podName) {
         ResultDto result = new ResultDto();
         logger.info("pod name of request from cni is {}", podName);
-
         if (StringUtils.isEmpty(podName)) {
             result.setMessage("illegal parameter, pod name is empty");
             return result;
@@ -253,16 +216,13 @@ public class RmServiceImpl implements RmService {
         logger.info("getPodInfo {} network info is {}", podName, result);
         return result;
     }
-
     @Override
     public ResultDto getPodInfosByPodNameList(List<String> podNames, Boolean ignoreStatus) {
         ResultDto result = new ResultDto();
         logger.info("get pod info request is: podName list={}, ignoreStatus={} (default false)", podNames, ignoreStatus);
-
         if (ignoreStatus == null) {
             ignoreStatus = false;
         }
-
         if (podNames == null || podNames.size() == 0) {
             result.setCode(FAIL);
             result.setMessage("illegal parameter, pod name is empty");
@@ -272,7 +232,6 @@ public class RmServiceImpl implements RmService {
         logger.info("getPodInfo info list is {}", result);
         return result;
     }
-
     @Override
     public ResultDto getPodMultiNetwork(String podName) {
         return networkService.getPodNetwork(podName);

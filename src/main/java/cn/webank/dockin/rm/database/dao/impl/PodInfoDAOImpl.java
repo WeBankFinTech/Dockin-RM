@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,7 +11,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.database.dao.impl;
 import cn.webank.dockin.rm.database.dto.PodInfo;
 import cn.webank.dockin.rm.bean.PageInfo;
@@ -25,13 +20,10 @@ import cn.webank.dockin.rm.database.dao.PodInfoDAO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
-
 @Repository
 public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
     @Override
@@ -41,7 +33,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.insert(podInfo);
         }
     }
-
     @Override
     public PodInfo getPodInfoByPodName(String podName) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -49,7 +40,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodInfoByPodName(podName);
         }
     }
-
     @Override
     public List<PodInfo> getPodInfoBySubsystem(String subSystem) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -57,7 +47,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodInfoBySubsystem(subSystem);
         }
     }
-
     @Override
     public int recyclePodInfo(String podIp, String offlineItsmId) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -65,7 +54,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.recyclePodInfo(podIp, offlineItsmId);
         }
     }
-
     @Override
     public PodInfo getPodInfoByPodIp(String podIp) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -73,7 +61,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodInfoByPodIp(podIp);
         }
     }
-
     @Override
     public List<PodInfo> getAllPodInfo() throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -81,7 +68,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getAllPodInfo();
         }
     }
-
     @Override
     public List<PodInfo> getPodInfoList(int page, int pageSize) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -89,8 +75,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodInfoList(page, pageSize);
         }
     }
-
-
     @Override
     public List<String> getPodIpListBySubsystem(String subSystem) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -98,7 +82,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodIpListBySubsystem(subSystem);
         }
     }
-
     @Override
     public List<String> getPodIpListByItsmId(String itsmId) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -106,7 +89,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodIpListByItsmId(itsmId);
         }
     }
-
     @Override
     public List<String> getPodIpListByOfflineItsmId(String offlineItsmId) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -114,7 +96,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodIpListByOfflineItsmId(offlineItsmId);
         }
     }
-
     @Override
     public int updatePodInfo(PodInfo podInfo) throws Exception {
         if (StringUtils.isEmpty(podInfo.getPodName())) {
@@ -125,7 +106,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.updatePodInfo(podInfo);
         }
     }
-
     @Override
     public List<PodInfo> getPodListByHostIp(String hostIp) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -133,7 +113,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodListByHostIp(hostIp);
         }
     }
-
     @Override
     public String getHostIp(String podIp) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -141,7 +120,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getHostIp(podIp);
         }
     }
-
     @Override
     public List<String> getPodIpList() throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -149,7 +127,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodIpList();
         }
     }
-
     @Override
     public List<PodInfo> getPodInfosByPodNameList(List<String> podNames) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -157,7 +134,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodInfosByPodNameList(podNames);
         }
     }
-
     @Override
     public List<PodInfo> getPodInfosByPodIpList(List<String> podIps) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -165,7 +141,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodInfosByPodIpList(podIps);
         }
     }
-
     @Override
     public List<PodInfo> getPodInfosByPodNameListIgnoreStatus(List<String> podNames) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -173,7 +148,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodInfosByPodNameListIgnoreStatus(podNames);
         }
     }
-
     @Override
     public Set<String> getAllSubSystem() throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -181,7 +155,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getAllSubSystem();
         }
     }
-
     @Override
     public Set<String> getAllSubSystemId() throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -189,7 +162,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getAllSubSystemId();
         }
     }
-
     @Override
     public List<PodInfo> getAllocatedInstanceBySubsystemAndDcn(@Param("subsystem") String subsystem, @Param("dcn") String dcn) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -197,7 +169,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getAllocatedInstanceBySubsystemAndDcn(subsystem, dcn);
         }
     }
-
     @Override
     public int removePodByName(String podName) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -205,7 +176,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.removePodByName(podName);
         }
     }
-
     @Override
     public int removePodByIp(String podIp) throws Exception {
         try (WbSqlSession session = getSession()) {
@@ -213,7 +183,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.removePodByIp(podIp);
         }
     }
-
     @Override
     public int removeAllBySubsystem(String subsystem) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -221,7 +190,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.removeAllBySubsystem(subsystem);
         }
     }
-
     @Override
     public int updatePodSubsystemNames() throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -229,7 +197,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.updatePodSubsystemNames();
         }
     }
-
     @Override
     public int updatePodNamespace() throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -237,7 +204,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.updatePodNamespace();
         }
     }
-
     @Override
     public int getSubsystemIdNullRecordsCount() throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -245,7 +211,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getSubsystemIdNullRecordsCount();
         }
     }
-
     @Override
     public int getPodsCountByClusterId(String clusterId) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -253,7 +218,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodsCountByClusterId(clusterId);
         }
     }
-
     @Override
     public List<PodInfo> getPodListByItsmId(String itsmId) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -261,7 +225,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodListByItsmId(itsmId);
         }
     }
-
     @Override
     public List<PodInfo> getPodListByOfflineItsmId(String itsmId) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -269,7 +232,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodListByOfflineItsmId(itsmId);
         }
     }
-
     @Override
     public List<String> getPodNameListBySubsystemIdWithoutSetId(String subsystemId) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -277,7 +239,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodNameListBySubsystemIdWithoutSetId(subsystemId);
         }
     }
-
     @Override
     public int changeStatus(String podName, String from, String to) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -285,7 +246,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.changeStatus(podName, from, to);
         }
     }
-
     @Override
     public int batchChangeStatus(Set<String> podNames, String from, String to) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -293,7 +253,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.batchChangeStatus(podNames, from, to);
         }
     }
-
     @Override
     public List<PodInfo> getPodInfo(PodInfo podInfo) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -301,7 +260,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getPodInfo(podInfo);
         }
     }
-
     @Override
     public List<PodInfo> getByPage(PodInfo podInfo, PageInfo pageInfo) throws SQLException {
         try (WbSqlSession session = getSession()) {
@@ -309,7 +267,6 @@ public class PodInfoDAOImpl extends AbstractSimpleDAO implements PodInfoDAO {
             return mapper.getByPage(podInfo, pageInfo);
         }
     }
-
     @Override
     public List<PodInfo> getByUpdateTime(Date dateFrom, Date dateTo) throws SQLException {
         try (WbSqlSession session = getSession()) {

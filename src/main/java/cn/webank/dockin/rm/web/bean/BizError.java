@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,32 +11,23 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.web.bean;
-
 public class BizError extends BaseDTO {
         private final String code;
-
         private final Object[] arguments;
-
         private final String defaultMessage;
-
         public BizError(String code, Object[] arguments, String defaultMessage) {
         this.code = code;
         this.arguments = arguments;
         this.defaultMessage = defaultMessage;
     }
-
         public String getCode() {
         return code;
     }
-
         public Object[] getArguments() {
         return arguments;
     }
-
         public String getDefaultMessage() {
         return defaultMessage;
     }
-
 }

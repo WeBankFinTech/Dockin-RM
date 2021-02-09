@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,39 +11,26 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.web.bean;
-
-
 public class RequestDTO extends BaseDTO {
-
     private String sign;
-
     private String timestamp;
-
     private boolean checkTimestamp = true;
-
-
     public boolean getCheckTimestamp() {
         return checkTimestamp;
     }
-
     public void setCheckTimestamp(boolean checkTimestamp) {
         this.checkTimestamp = checkTimestamp;
     }
-
     public String getSign() {
         return sign;
     }
-
     public void setSign(String sign) {
         this.sign = sign;
     }
-
     public String getTimestamp() {
         return timestamp;
     }
-
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }

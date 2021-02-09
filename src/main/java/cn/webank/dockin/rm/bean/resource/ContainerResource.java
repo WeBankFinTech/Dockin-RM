@@ -11,35 +11,35 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package cn.webank.dockin.rm.database.dto;
-public class OperateRecord {
-    private String itsmId;
-    private String state;
-    private String result;
-    public String getItsmId() {
-        return itsmId;
+package cn.webank.dockin.rm.bean.resource;
+public class ContainerResource {
+    private double cpu;
+    private double memory;
+    private int disk;
+    public double getCpu() {
+        return cpu;
     }
-    public void setItsmId(String itsmId) {
-        this.itsmId = itsmId;
+    public void setCpu(double cpu) {
+        this.cpu = cpu;
     }
-    public String getState() {
-        return state;
+    public double getMemory() {
+        return memory;
     }
-    public void setState(String state) {
-        this.state = state;
+    public void setMemory(double memory) {
+        this.memory = memory;
     }
-    public String getResult() {
-        return result;
+    public int getDisk() {
+        return disk;
     }
-    public void setResult(String result) {
-        this.result = result;
+    public void setDisk(int disk) {
+        this.disk = disk;
     }
     @Override
     public String toString() {
-        return "OperateRecord{" +
-                "itsmId='" + itsmId + '\'' +
-                ", state='" + state + '\'' +
-                ", result='" + result + '\'' +
+        return "ContainerResource{" +
+                "cpu=" + cpu +
+                ", memory=" + memory +
+                ", disk=" + disk +
                 '}';
     }
 }

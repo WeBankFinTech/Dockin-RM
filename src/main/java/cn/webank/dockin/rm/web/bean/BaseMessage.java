@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,52 +11,38 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.web.bean;
-
 public class BaseMessage extends BaseDTO {
-
     private String code = ResponseStatus.SUCCESS.getCode();
-
     private String msg = "请求成功";
         private String bizSeqNo;
         private String debugMsg;
-
     public String getCode() {
         return code;
     }
-
     public void setCode(String code) {
         this.code = code;
     }
-
     public String getMsg() {
         return msg;
     }
-
     public void setMsg(String msg) {
         this.msg = msg;
     }
-
     public void setResponseStatus(ResponseStatus status) {
         this.code = status.getCode();
         this.msg = status.getMessage();
     }
-
     public String getBizSeqNo() {
         return bizSeqNo;
     }
-
     public void setBizSeqNo(String bizSeqNo) {
         this.bizSeqNo = bizSeqNo;
     }
-
     public String getDebugMsg() {
         return debugMsg;
     }
-
     public void setDebugMsg(String debugMsg) {
         this.debugMsg = debugMsg;
     }
-
 }

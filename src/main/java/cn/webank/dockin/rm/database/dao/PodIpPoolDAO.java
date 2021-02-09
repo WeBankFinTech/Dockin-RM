@@ -11,46 +11,21 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.database.dao;
-
 import cn.webank.dockin.rm.database.dto.PodIpInfo;
 import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
-
-
 public interface PodIpPoolDAO {
-
-
     int batchInsert(@Param("ips") List<String> ips, @Param("tor") String tor, @Param("gatewayIp") String gatewayIp,
                     @Param("subnetMask") String subnetMask) throws Exception;
-
-
     int insertPodIp(@Param("tor") String tor, @Param("podIp") String podIp, @Param("gatewayIp") String gatewayIp,
                     @Param("subnetMask") String subnetMask) throws Exception;
-
-
     int allocatePodIp(@Param("podIp") String podIp) throws Exception;
-
-
     int releasePodIp(@Param("podIp") String podIp) throws Exception;
-
-
     PodIpInfo getFreePodIpByTor(@Param("tor") String tor, @Param("startIp") String startIp, @Param("endIp") String endIp) throws Exception;
-
-
     PodIpInfo getFreePodIp() throws Exception;
-
-
     List<String> getAllocatedIp() throws Exception;
-
-
     List<String> getAllIps() throws Exception;
-
-
     List<String> getIps(PodIpInfo filter) throws Exception;
-
-
     int deleteIps(@Param("ips") List<String> ips) throws Exception;
 }

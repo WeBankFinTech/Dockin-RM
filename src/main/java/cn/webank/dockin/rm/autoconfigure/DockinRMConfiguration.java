@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,9 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.autoconfigure;
-
 import cn.webank.dockin.rm.autoconfigure.bean.RMConfig;
 import cn.webank.dockin.rm.exception.SysException;
 import cn.webank.dockin.rm.web.controller.WbThreadPoolTaskExecutor;
@@ -36,13 +30,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
 import java.io.File;
 import java.io.InputStream;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-
-
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(lazyInit = false)
@@ -50,7 +41,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @EnableAsync
 @EnableCaching
 public class DockinRMConfiguration extends WebMvcConfigurerAdapter {
-
     @Bean(name = "frontTaskExecutor")
     public ThreadPoolTaskExecutor frontThreadPoolTaskExecutor(
             @Value("${dockin-rm.front.threadpool.core-pool-size:128}") int frontCorePoolSize,
@@ -71,12 +61,10 @@ public class DockinRMConfiguration extends WebMvcConfigurerAdapter {
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
         return executor;
     }
-
     @Bean(name = "defaultTaskExecutor")
     public ScheduledExecutorService reloadThreadPoolTaskExecutor() {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(10, new ThreadFactory() {
             AtomicInteger i = new AtomicInteger();
-
             @Override
             public Thread newThread(Runnable r) {
                 Thread t = new Thread(r, "DefaultTaskThread-" + i.incrementAndGet());
@@ -84,10 +72,8 @@ public class DockinRMConfiguration extends WebMvcConfigurerAdapter {
                 return t;
             }
         });
-
         return executorService;
     }
-
     @Bean(name = "messageSource")
     public MessageSource messageResource() {
         ReloadableResourceBundleMessageSource messageResource =
@@ -97,26 +83,19 @@ public class DockinRMConfiguration extends WebMvcConfigurerAdapter {
         messageResource.setCacheSeconds(3600);
         return messageResource;
     }
-
     @Bean(name = "reloadConfiguration")
     public ReloadRMConfiguration ReloadRMConfiguration() {
         String routeFile = "/application.properties";
         try {
-
             ClassPathResource res = new ClassPathResource(routeFile);
             InputStream is = res.getInputStream();
-
             File file = File.createTempFile("temp-config", "properties");
             FileUtils.copyInputStreamToFile(is , file);
-
-
-
             ReloadRMConfiguration reloadConfiguration = new ReloadRMConfiguration(file, 60, TimeUnit.SECONDS,
                     RMConfig.class);
             return reloadConfiguration;
         } catch (Exception e) {
             throw new SysException("init ReloadRMConfiguration fail", e);
-
         }
     }
 }

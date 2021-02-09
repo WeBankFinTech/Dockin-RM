@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,30 +11,23 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.bean.network;
-
 public enum NetworkType {
     WEBANK("webank"),
     ECN("ecn"),
     DMZ("dmz"),
     IECN("ecn");
-
     public String value;
-
     NetworkType(String value) {
         this.value = value;
     }
-
     @Override
     public String toString() {
         return value;
     }
-
     public String getValue() {
         return value;
     }
-
     public void setValue(String value) {
         this.value = value;
     }

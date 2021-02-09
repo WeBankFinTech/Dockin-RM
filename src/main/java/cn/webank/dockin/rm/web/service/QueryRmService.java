@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,9 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.web.service;
-
 import cn.webank.dockin.rm.bean.biz.ResultDto;
 import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
 import cn.webank.dockin.rm.common.Constants;
@@ -29,18 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
-
-
 @Service
 public class QueryRmService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     PodInfoService podInfoService;
-
     public ResultDto<List<PodInfoDTO>> getPodInfoByPodSetId(String podSetId) {
         ResultDto<List<PodInfoDTO>> result = new ResultDto();
         if (StringUtils.isEmpty(podSetId)) {
@@ -48,7 +37,6 @@ public class QueryRmService {
             result.setMessage("illegal parameter, pod set id is empty");
             return result;
         }
-
         try {
             List<PodInfoDTO> podInfoDTOList = podInfoService.getPodInfoByPodSetId(podSetId);
             if (podInfoDTOList != null && podInfoDTOList.size() > 0) {
@@ -62,16 +50,12 @@ public class QueryRmService {
             result.setCode(Constants.FAIL);
             result.setMessage("query failed:" + e.getMessage());
         }
-
         logger.info("getPodInfoByPodSetId podSetId {}, result {}", podSetId, result);
         return result;
     }
-
     private List<PodInfoDTO> matchResult(List<PodInfoDTO> podInfoDTOList, GetPodDTO getPodDTO) {
         if (CollectionUtils.isEmpty(podInfoDTOList)) return new ArrayList<>();
-
         List<PodInfoDTO> matchedList = new ArrayList<>();
-
         for (PodInfoDTO podInfoDTO : podInfoDTOList) {
             if ((getPodDTO.getPodName() == null || podInfoDTO.getPodName().equals(getPodDTO.getPodName()))
                     && (getPodDTO.getPodSetId() == null || podInfoDTO.getPodSetId().equals(getPodDTO.getPodSetId()))
@@ -82,13 +66,8 @@ public class QueryRmService {
                 matchedList.add(podInfoDTO);
             }
         }
-
         return matchedList;
     }
-
-    
     public void validate(GetPodDTO getPodDTO) {
     }
 }
-
-

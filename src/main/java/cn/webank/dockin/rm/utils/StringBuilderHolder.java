@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,17 +11,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.utils;
-
 public class StringBuilderHolder {
-
     private final StringBuilder sb;
-
     public StringBuilderHolder(int capacity) {
         sb = new StringBuilder(capacity);
     }
-
         public StringBuilder resetAndGetStringBuilder() {
         sb.setLength(0);
         return sb;

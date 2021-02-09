@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,19 +11,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.service;
-
-
 import cn.webank.dockin.rm.bean.biz.ResultDto;
 import cn.webank.dockin.rm.bean.network.Network;
-
 import java.util.List;
-
 public interface NetworkService {
-
-        ResultDto<List<Network>> getPodNetwork(String podName);
-
-
+    ResultDto<List<Network>> getPodNetwork(String podName);
     ResultDto getPodNetworkInfoByPodName(String podName);
+    void recycleAdditionalNetwork(String podName);
 }

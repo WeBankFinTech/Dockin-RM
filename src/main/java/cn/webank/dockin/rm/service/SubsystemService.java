@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,14 +11,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.service;
 import cn.webank.dockin.rm.database.dto.Subsystem;
-
 public interface SubsystemService {
-
     String TYPE_ID = "ID";
     String TYPE_NAME = "NAME";
-
         Subsystem getBySubsystemName(String subSystemName);
 }

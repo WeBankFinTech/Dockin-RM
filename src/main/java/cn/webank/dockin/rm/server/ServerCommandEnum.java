@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,31 +11,22 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.server;
-
 public enum ServerCommandEnum {
     START("start"), STOP("stop"), HELP("help");
-
     private String value;
-
     ServerCommandEnum(String value) {
         this.value = value;
     }
-
-    
     public static ServerCommandEnum getServerCommandEnum(String value) {
         for (ServerCommandEnum e : values()) {
             if (e.getValue().equals(value)) {
                 return e;
             }
         }
-
         throw new IllegalArgumentException(value + " is not a valid value");
     }
-
     public String getValue() {
         return this.value;
     }
-
 }

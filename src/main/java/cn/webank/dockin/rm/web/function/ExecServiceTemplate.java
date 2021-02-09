@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,15 +11,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.web.function;
-
 import cn.webank.dockin.rm.web.bean.BaseDTO;
 import cn.webank.dockin.rm.web.bean.BizErrors;
-
-
 @FunctionalInterface
 public interface ExecServiceTemplate<E extends BaseDTO, T> {
     public T apply(E requestDto, BizErrors bizErrors);
-
 }

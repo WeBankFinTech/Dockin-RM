@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,9 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.aspect;
-
 import cn.webank.dockin.rm.utils.RmUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -28,28 +22,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
-
-
 @Aspect
 @Component
 public class WebLogAspect {
     private Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
-
     @Pointcut("execution(public * cn.webank.dockin.rm.web.controller..*(..))")
     public void webLog() {
-
     }
-
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-
         logger.info("URL=" + request.getRequestURL().toString() + ",HTTP_METHOD=" + request.getMethod() + ",IP=" + RmUtil.getIP(request)
                 + ",ARGS=" + Arrays.toString(joinPoint.getArgs()));
-
     }
 }

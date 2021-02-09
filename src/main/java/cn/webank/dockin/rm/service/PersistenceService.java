@@ -1,6 +1,3 @@
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -14,21 +11,16 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.service;
-
 import cn.webank.dockin.rm.bean.biz.ResultDto;
 import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
 import cn.webank.dockin.rm.database.dto.PodInfo;
-
+import java.util.Set;
 public interface PersistenceService {
-
     ResultDto getPodInfoByPodName(String podName);
-
     ResultDto getPodInfoByPodIp(String podIp);
-
     PodInfoDTO podDTO2DOConvertor(PodInfo podInfo) throws Exception;
-    PodInfoDTO getPodInfo(String podIp) throws Exception;
+    PodInfo getPodInfo(String podIp) throws Exception;
     int updateHostInfo(String hostIp) throws Exception;
-
+    ResultDto removeInfoFromDB(Set<String> ipList, String offlineItsmId) throws Exception;
 }

@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,15 +11,9 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.web.bean;
-
 public class MonitorKeys {
-
-
-
     public static final String APP_MONITOR_LOGGER = "appMonitor";
-
     public static final String REQUEST_SUCCESS_TEMPLATE =
             "{"
                     + "\"s\":\"%s.%s\""
@@ -35,11 +25,7 @@ public class MonitorKeys {
                     + ",\"appId\":\"%s\""
                     + ",\"channel\":\"%s\""
                     + "}";
-
     public static final String SUCCESS_FLAG = "0";
-
     public static final String SYS_FAIL_FLAG = "1";
-
     public static final String BIZ_FAIL_FLAG = "2";
-
 }

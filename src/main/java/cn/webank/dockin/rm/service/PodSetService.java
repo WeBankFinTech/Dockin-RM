@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,13 +11,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.service;
-
+import cn.webank.dockin.rm.bean.pod.PodSetStatus;
 public interface PodSetService {
     int DEFAULT_APPLY_ID_RETRY_TIMES = 3;
-
     String parsePodSetId(String podSetId);
-
     void bindPod(String setId, String podName);
+    int updateStatus(String podSetId, PodSetStatus bound) throws Exception;
+    boolean recyclePodSetId(String setId);
 }

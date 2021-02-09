@@ -1,19 +1,4 @@
-/*
- * Copyright (C) @2020 Webank Group Holding Limited
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
-
 package cn.webank.dockin.rm.service.impl;
-
 import cn.webank.dockin.rm.database.dao.HostInfoDAO;
 import cn.webank.dockin.rm.database.dao.PodInfoDAO;
 import cn.webank.dockin.rm.database.dto.HostInfo;
@@ -30,32 +15,22 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-
-
 @SpringBootTest(classes = {DockinRMServer.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Transactional("transactionManager")
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @DirtiesContext
 public class PodInfoServiceTest {
     Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     PodInfoService podInfoService;
-
     @Autowired
     PodInfoDAO podInfoDAO;
-
     @Autowired
     HostInfoDAO hostInfoDAO;
-
     @Autowired
     PodSetService podSetService;
-
-
-//    @Test
     public void getPodInfoByPodSetId() throws Exception {
         HostInfo hostInfo = new HostInfo();
-
         hostInfo.setHostIp("192.168.96.21");
         hostInfo.setTor("tor1");
         hostInfo.setIdc("FT");
@@ -70,7 +45,6 @@ public class PodInfoServiceTest {
         hostInfo.setState("available");
         hostInfo.setClusterId("xl01");
         hostInfo.setClusterVersion("1");
-
         hostInfoDAO.insertHostInfo(hostInfo);
         PodInfo podInfoDTO = new PodInfo("Dockin-query-192.168-34-46", "1111-0",
                 "Dockin-query", "1111", "101", "192.168.34.46", "192.168.34.1",

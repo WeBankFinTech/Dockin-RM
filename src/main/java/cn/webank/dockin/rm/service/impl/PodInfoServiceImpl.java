@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,7 +11,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.service.impl;
 import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
 import cn.webank.dockin.rm.database.dao.PodInfoDAO;
@@ -31,44 +26,31 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
-
-
 @Service
 public class PodInfoServiceImpl implements PodInfoService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Value("${rm.env}")
     private String env = "prd";
-
     @Autowired
     PodInfoDAO podInfoDAO;
-
     @Autowired
     PodSetService podSetService;
-
     @Autowired
     HostService hostService;
-
     @Override
     public List<PodInfoDTO> getPodInfoByPodSetId(String podSetId) throws Exception {
         podSetId = podSetService.parsePodSetId(podSetId);
         PodInfo podInfo = new PodInfo();
         podInfo.setPodSetId(podSetId);
         List<PodInfo> queryPodList = podInfoDAO.getPodInfo(podInfo);
-
         List<PodInfoDTO> result = new ArrayList<>();
         for (PodInfo p : queryPodList) {
             result.add(BeanParser.parsePodInfo(p, hostService.getClusterId(p.getHostIp())));
-
         }
-
         return result;
     }
-
-
     @Override
     public ResultDto getPodInfosByPodNameList(List<String> podNames, boolean ignoreStatus) {
         ResultDto resultDto = new ResultDto();
@@ -83,13 +65,10 @@ public class PodInfoServiceImpl implements PodInfoService {
                 resultDto.setMessage("pod info not found for pod name");
                 return resultDto;
             }
-
             List<PodInfoDTO> podInfoDTOForOperators = new ArrayList<>();
-
             for (PodInfo podInfo : podInfoDTOList) {
                 podInfoDTOForOperators.add(BeanParser.parsePodInfo(podInfo, hostService.getClusterId(podInfo.getHostIp())));
             }
-
             resultDto.setData(podInfoDTOForOperators);
             resultDto.setCode(Constants.SUCCESS);
         } catch (Exception e) {
@@ -98,6 +77,4 @@ public class PodInfoServiceImpl implements PodInfoService {
         }
         return resultDto;
     }
-
-
 }

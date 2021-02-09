@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,24 +11,15 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.bean.pod;
-
 public enum PodExpiryType {
-    
     LONG_TERM(0),
-
-    
     TEMP(1);
-
     private final int value;
-
     PodExpiryType(int value) {
         this.value = value;
     }
-
     public int getValue() {
         return value;
     }
 }
-

@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,16 +11,11 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.service;
 import cn.webank.dockin.rm.bean.biz.ResultDto;
 import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
-
 import java.util.List;
-
 public interface PodInfoService {
-
     List<PodInfoDTO> getPodInfoByPodSetId(String podSetId) throws Exception;
-
     ResultDto getPodInfosByPodNameList(List<String> podNames, boolean ignoreStatus);
 }

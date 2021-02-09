@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,18 +11,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.autoconfigure.bean;
-
-
 public class RMConfig {
-    
     private double cpuExceededPercentage;
-
     public double getCpuExceededPercentage() {
         return cpuExceededPercentage;
     }
-
     public void setCpuExceededPercentage(double cpuExceededPercentage) {
         this.cpuExceededPercentage = cpuExceededPercentage;
     }

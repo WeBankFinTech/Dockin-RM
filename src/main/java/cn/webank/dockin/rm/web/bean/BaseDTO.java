@@ -1,7 +1,3 @@
-
-
-
-
 /*
  * Copyright (C) @2021 Webank Group Holding Limited
  * <p>
@@ -15,23 +11,18 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package cn.webank.dockin.rm.web.bean;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 public class BaseDTO {
     @Override
     public String toString() {
         return this.toString();
     }
-
     @Override
     public boolean equals(Object baseDTO) {
         return EqualsBuilder.reflectionEquals(this, baseDTO);
     }
-
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
