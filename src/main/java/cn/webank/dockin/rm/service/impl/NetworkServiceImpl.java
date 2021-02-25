@@ -116,4 +116,9 @@ public class NetworkServiceImpl implements NetworkService {
         }
         return resultDto;
     }
+
+    @Override
+    public void recycleAdditionalNetwork(String podName) {
+        // TODO
+    }
 }
