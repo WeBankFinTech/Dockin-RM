@@ -12,11 +12,15 @@
  * the License.
  */
 package cn.webank.dockin.rm.service.impl;
+import cn.webank.dockin.rm.bean.pod.PodInfoDTO;
+import cn.webank.dockin.rm.bean.pod.PodSetStatus;
 import cn.webank.dockin.rm.database.dao.PodInfoDAO;
+import cn.webank.dockin.rm.database.dao.PodSetDAO;
 import cn.webank.dockin.rm.database.dto.PodInfo;
 import cn.webank.dockin.rm.database.dto.Subsystem;
 import cn.webank.dockin.rm.exception.RmException;
 import cn.webank.dockin.rm.exception.RmRuntimeException;
+import cn.webank.dockin.rm.service.PodInfoService;
 import cn.webank.dockin.rm.service.PodSetService;
 import cn.webank.dockin.rm.service.SubsystemService;
 import org.apache.commons.lang3.StringUtils;
@@ -26,13 +30,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
+import java.util.List;
+
 @Service
 public class PodSetServiceImpl implements PodSetService {
     private static Logger logger = LoggerFactory.getLogger(PodSetServiceImpl.class);
     @Autowired
+    PodInfoService podInfoService;
+    @Autowired
     SubsystemService subsystemService;
     @Autowired
     PodInfoDAO podInfoDAO;
+    @Autowired
+    PodSetDAO podSetDAO;
     @Override
     public String parsePodSetId(String podSetId) {
         Assert.notNull(podSetId, "podSetId can not be null");
@@ -63,5 +74,37 @@ public class PodSetServiceImpl implements PodSetService {
         } catch (Exception e) {
             throw new RmRuntimeException("bind pod failed", e);
         }
+    }
+
+    @Override
+    public int updateStatus(String podSetId, PodSetStatus bound) throws Exception {
+        // todo
+        return 0;
+    }
+
+    @Override
+    public boolean recyclePodSetId(String setId) {
+        try {
+            List<PodInfoDTO> podList = podInfoService.getPodInfoByPodSetId(setId);
+            if (podList.size() > 0) {
+                if (podList.size() > 2) {
+                    logger.warn("podSetId {} bind {} pods, beyond two limit, skip to recycle", setId, podList.size());
+                } else {
+                    logger.info("podSetId {} bind {} pods, skip to recycle", setId, podList.size());
+                }
+
+                return true;
+            }
+
+            int row = podSetDAO.changeStatus(setId, PodSetStatus.BOUND.getName(), PodSetStatus.FREE.getName());
+            if (row == 1) {
+                return true;
+            } else {
+                return podSetDAO.getById(setId).getStatus().equals(PodSetStatus.FREE.getName());
+            }
+        } catch (Exception e) {
+            logger.warn("recyclePodSetId failed", e);
+        }
+        return false;
     }
 }

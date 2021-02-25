@@ -24,6 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
+
 import static cn.webank.dockin.rm.common.Constants.FAIL;
 @Service
 public class PersistenceServiceImpl implements PersistenceService {
@@ -76,6 +79,25 @@ public class PersistenceServiceImpl implements PersistenceService {
     public PodInfoDTO podDTO2DOConvertor(PodInfo podInfo) throws Exception {
         return BeanParser.parsePodInfo(podInfo, getClusterId(podInfo.getHostIp()));
     }
+
+    @Override
+    public PodInfo getPodInfo(String podIp) throws Exception {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public int updateHostInfo(String hostIp) throws Exception {
+        // TODO
+        return 0;
+    }
+
+    @Override
+    public ResultDto removeInfoFromDB(Set<String> ipList, String offlineItsmId) throws Exception {
+        // TODO
+        return null;
+    }
+
     public String getClusterId(String hostIp) throws Exception {
         return hostInfoDAO.getClusterIdByHostIp(hostIp);
     }
